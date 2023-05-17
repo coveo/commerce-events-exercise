@@ -1,8 +1,5 @@
 import React, {useEffect} from 'react';
 import SearchPage from './Components/SearchPage';
-import Hero from './Components/Hero';
-import logo from './logo.svg';
-import coveologo from './coveologo.svg';
 import {
   BrowserRouter as Router,
   Routes,
@@ -55,10 +52,6 @@ const Home = () => {
   if (engine) {
     return (
       <div className="App">
-        <Hero
-          logos={[logo, coveologo]}
-          welcome="Welcome to Your Coveo React.js Search Page"
-        />
         {engine && <SearchPage engine={engine} />}
       </div>
     );
