@@ -1,0 +1,8 @@
+.cart {
+  position: relative;
+}
+
+.cart-list {
+  position: absolute;
+  border: black solid 1px
+}
