@@ -9,6 +9,7 @@ import {
 import {Grid, Typography, Box} from '@mui/material';
 import {initializeHeadlessEngine} from './common/Engine';
 import {SearchEngine} from '@coveo/headless';
+import { Checkout } from './pages/Checkout';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           }
         />
         <Route path="/home" element={<Home />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/error" element={<Error />} />
       </Routes>
     </Router>
