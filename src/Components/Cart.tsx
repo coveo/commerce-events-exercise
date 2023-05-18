@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import './Cart.css'
+import "./Cart.css";
 import { Link } from "react-router-dom";
 import { CartItem, useCart } from "./useCart";
 
 export function Cart() {
-  const {subscribe} = useCart()
-  const [items, setItems] = useState<CartItem[]>([])
+  const { subscribe } = useCart();
+  const [items, setItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const toggleCart = () => setShowCart(!showCart);
 
-  useEffect(() => subscribe((items) => setItems(items)))
+  useEffect(() => subscribe((items) => setItems(items)));
 
   return (
     <div className="cart">
       <button onClick={toggleCart}>cart</button>
-      {showCart ? <CartList items={items}/> : null}
+      {showCart ? <CartList items={items} /> : null}
     </div>
   );
 }
@@ -24,11 +24,17 @@ interface CartListProps {
 }
 
 function CartList(props: CartListProps) {
-  const {items} = props
+  const { items } = props;
 
-  return <div className="cart-list">
-    <div>My cart</div>
-    {items.map(item => <div>{item.product.title} {item.quantity}</div>)}
-    <Link to='/checkout'>Checkout</Link>
-  </div>
+  return (
+    <div className="cart-list">
+      <div>My cart</div>
+      {items.map((item) => (
+        <div key={item.product.uniqueId}>
+          {item.product.title} {item.quantity}
+        </div>
+      ))}
+      <Link to="/checkout">Checkout</Link>
+    </div>
+  );
 }
