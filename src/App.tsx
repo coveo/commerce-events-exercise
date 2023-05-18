@@ -10,10 +10,12 @@ import {Grid, Typography, Box} from '@mui/material';
 import {initializeHeadlessEngine} from './common/Engine';
 import {SearchEngine} from '@coveo/headless';
 import { Checkout } from './pages/Checkout';
+import { ScenarioButton } from './Components/ScenarioButton';
 
 export default function App() {
   return (
     <Router>
+      <ScenarioButton/>
       <Routes>
         <Route
           path="/"

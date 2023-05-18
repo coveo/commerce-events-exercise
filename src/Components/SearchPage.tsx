@@ -12,7 +12,6 @@ import ResultsPerPage from "./ResultsPerPage";
 import { SearchEngine } from "@coveo/headless";
 import { EngineProvider } from "../common/engineContext";
 import { Cart } from "./Cart";
-import { ScenarioButton } from "./ScenarioButton";
 
 interface ISearchPageProps {
   engine: SearchEngine;
@@ -28,7 +27,6 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   return (
     <EngineProvider value={engine}>
       <Container maxWidth="lg">
-        <ScenarioButton/>
         <Grid container justifyContent="center">
           <Grid item md={8}>
             <SearchBox />
