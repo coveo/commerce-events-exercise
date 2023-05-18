@@ -9,7 +9,7 @@ export function Cart() {
   const [showCart, setShowCart] = useState(false);
   const toggleCart = () => setShowCart(!showCart);
 
-  useEffect(() => subscribe((items) => setItems(items)));
+  useEffect(() => subscribe(setItems));
 
   return (
     <div className="cart">
