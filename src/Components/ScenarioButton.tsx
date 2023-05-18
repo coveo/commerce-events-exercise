@@ -5,9 +5,11 @@ export function ScenarioButton() {
   const scenario = buildScenario();
   const { removeAll } = useCart();
 
-  function run() {
+  async function run() {
     removeAll();
-    scenario.run();
+    await scenario.run();
+    removeAll();
   }
+  
   return <button onClick={run}>Run scenario</button>;
 }
