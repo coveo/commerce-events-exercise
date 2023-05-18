@@ -39,9 +39,14 @@ export function useCart() {
     set(newItems)
   }
 
+  function removeAll() {
+    set([])
+  }
+
   return {
     addProduct,
     removeProduct,
+    removeAll,
     subscribe,
   }
 }
