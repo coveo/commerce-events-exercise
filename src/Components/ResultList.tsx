@@ -11,6 +11,7 @@ import {
   SearchEngine,
 } from '@coveo/headless';
 import EngineContext from '../common/engineContext';
+import { useCart } from './useCart';
 
 type Template = (result: Result) => React.ReactNode;
 
@@ -71,6 +72,7 @@ function FieldValue(props: FieldValueInterface) {
 const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
   const {controller} = props;
   const engine = useContext(EngineContext)!;
+  const {addProduct} = useCart()
   const [state, setState] = useState(controller.state);
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =
@@ -97,6 +99,7 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
           {result.raw.objecttype && (
             <FieldValue caption="Object Type" value={result.raw.objecttype} />
           )}
+          <button onClick={() => addProduct(result)}>Add to cart</button>
         </Box>
       </ListItem>
     ),

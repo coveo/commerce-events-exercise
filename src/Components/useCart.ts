@@ -1,16 +1,18 @@
 import { Result } from "@coveo/headless";
-import { useState } from "react";
+import { buildStore } from "../common/store";
 
 export interface CartItem {
   product: Result;
   quantity: number;
 }
 
+const store = buildStore<CartItem[]>([])
+
 export function useCart() {
-  const [items, setItems] = useState<CartItem[]>([])
+  const { set, subscribe } = store;
 
   function findCartItemIndex(product: Result) {
-    return items.findIndex(item => item.product.uniqueId === product.uniqueId)
+    return store.value.findIndex(item => item.product.uniqueId === product.uniqueId)
   }
 
   function addProduct(product: Result) {
@@ -19,27 +21,27 @@ export function useCart() {
   }
 
   function addNewItem(product: Result) {
-    const newItems = [...items, { product, quantity: 1 }]
-    setItems(newItems)
+    const newItems = [...store.value, { product, quantity: 1 }]
+    set(newItems)
   }
 
   function incrementItem(product: Result) {
-    const newItems = items.map(item => {
+    const newItems = store.value.map(item => {
       const found = item.product.uniqueId === product.uniqueId
       return found ? ({ ...item, quantity: item.quantity + 1 }) : item;
     })
 
-    setItems(newItems)
+    set(newItems)
   }
 
   function removeProduct(product: Result) {
-    const newItems = items.filter(item => item.product.uniqueId !== product.uniqueId)
-    setItems(newItems)
+    const newItems = store.value.filter(item => item.product.uniqueId !== product.uniqueId)
+    set(newItems)
   }
 
   return {
-    items,
     addProduct,
-    removeProduct
+    removeProduct,
+    subscribe,
   }
 }
