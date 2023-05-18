@@ -99,7 +99,7 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
           {result.raw.objecttype && (
             <FieldValue caption="Object Type" value={result.raw.objecttype} />
           )}
-          <button onClick={() => addProduct(result)}>Add to cart</button>
+          <button className='add-to-cart-btn' onClick={() => addProduct(result)}>Add to cart</button>
         </Box>
       </ListItem>
     ),

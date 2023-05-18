@@ -13,7 +13,7 @@ export function Cart() {
 
   return (
     <div className="cart">
-      <button onClick={toggleCart}>cart</button>
+      <button id="cart-btn" onClick={toggleCart}>cart</button>
       {showCart ? <CartList items={items} /> : null}
     </div>
   );
@@ -34,7 +34,7 @@ function CartList(props: CartListProps) {
           {item.product.title} {item.quantity}
         </div>
       ))}
-      <Link to="/checkout">Checkout</Link>
+      <Link id="checkout-btn" to="/checkout">Checkout</Link>
     </div>
   );
 }
