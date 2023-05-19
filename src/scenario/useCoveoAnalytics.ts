@@ -1,22 +1,29 @@
 import 'coveo.analytics'
-import { handleOneAnalyticsEvent } from 'coveo.analytics';
+import { AnalyticsClientSendEventHook, handleOneAnalyticsEvent } from 'coveo.analytics';
 import { useEventStore } from './useEventStore'
-import { IAnalyticsRequestOptions } from 'coveo.analytics/dist/definitions/client/analyticsRequestClient'
 
 type CoveoUAGlobal = typeof handleOneAnalyticsEvent
 
 declare global {
   var coveoua: CoveoUAGlobal;
+  var coveoanalytics: any;
 }
 
 export function useCoveoAnalytics() {
-  const { add } = useEventStore()
+  const { add } = useEventStore();
+  const hook: AnalyticsClientSendEventHook = (type, payload) => {
+    const event = { type, payload }
+    add(event)
+    return payload
+  }
 
-  function preprocessRequest(request: IAnalyticsRequestOptions) {
-    add(request)
-    return request;
+  const client = window.coveoanalytics?.SimpleAnalytics.coveoua.client
+
+  if (client && !client.hookAttached) {
+    window.coveoanalytics.SimpleAnalytics.coveoua.client.registerBeforeSendEventHook(hook);
+    client.hookAttached = true;
   }
 
   const coveoua = window.coveoua || (() => console.log('noop coveoua'));
-  return { preprocessRequest, coveoua }
+  return { coveoua }
 }

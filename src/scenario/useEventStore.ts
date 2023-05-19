@@ -1,8 +1,11 @@
-import { IAnalyticsRequestOptions } from "coveo.analytics/dist/definitions/client/analyticsRequestClient";
 import { buildStore } from "../common/store";
 
+export interface AnalyticsEvent {
+  type: string;
+  payload: any;
+}
 
-const eventStore = buildStore<IAnalyticsRequestOptions[]>([])
+const eventStore = buildStore<AnalyticsEvent[]>([])
 
 export function useEventStore() {
   const { subscribe } = eventStore;
@@ -11,10 +14,9 @@ export function useEventStore() {
     eventStore.set([])
   }
 
-  function add(event: IAnalyticsRequestOptions) {
+  function add(event: AnalyticsEvent) {
     eventStore.set([...eventStore.value, event])
   }
-
 
   return {
     reset,

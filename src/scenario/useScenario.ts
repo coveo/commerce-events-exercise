@@ -1,9 +1,12 @@
 import { useCart } from "../Components/useCart";
+import { useEventStore } from "./useEventStore";
 
 export function useScenario() {
+  const { reset: resetEventStore } = useEventStore()
   const { removeAll: emptyCart } = useCart();
 
   async function run() {
+    resetEventStore()
     emptyCart()
     addItemToCart()
 
