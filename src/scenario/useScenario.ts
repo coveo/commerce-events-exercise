@@ -1,22 +1,22 @@
 import { useCart } from "../Components/useCart";
 
 export function useScenario() {
-  const { removeAll } = useCart();
+  const { removeAll: emptyCart } = useCart();
 
   async function run() {
-    removeAll()
+    emptyCart()
     addItemToCart()
-    
+
     openCart()
     await sleep(0.5)
     navigateToCheckout()
 
     pay()
     await sleep(0.5)
-    
+
     reportResult()
     navigateToHome()
-    removeAll()
+    emptyCart()
   }
 
   return {
