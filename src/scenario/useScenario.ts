@@ -1,5 +1,10 @@
-export function buildScenario() {
+import { useCart } from "../Components/useCart";
+
+export function useScenario() {
+  const { removeAll } = useCart();
+
   async function run() {
+    removeAll()
     addItemToCart()
     
     openCart()
@@ -11,6 +16,7 @@ export function buildScenario() {
     
     reportResult()
     navigateToHome()
+    removeAll()
   }
 
   return {

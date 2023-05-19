@@ -1,18 +1,14 @@
 import { useState } from "react";
-import { buildScenario } from "../scenario/scenario";
-import { useCart } from "./useCart";
+import { useScenario } from "../scenario/useScenario";
 import { ScenarioResultModal } from "./ScenarioResultModal";
 
 export function ScenarioButton() {
   const [showModal, setShowModal] = useState(false);
 
-  const scenario = buildScenario();
-  const { removeAll } = useCart();
+  const { run } = useScenario();
 
-  async function run() {
-    removeAll();
-    await scenario.run();
-    removeAll();
+  async function runScenario() {
+    await run();
     show();
   }
 
@@ -26,7 +22,7 @@ export function ScenarioButton() {
 
   return (
     <div>
-      <button onClick={run}>Run scenario</button>
+      <button onClick={runScenario}>Run scenario</button>
       <button onClick={show}>Show results</button>
       {showModal && <ScenarioResultModal hideModal={hide} />}
     </div>
