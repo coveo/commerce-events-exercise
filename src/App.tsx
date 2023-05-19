@@ -1,26 +1,26 @@
-import React, {useEffect} from 'react';
-import SearchPage from './Components/SearchPage';
+import React, { useEffect } from "react";
+import SearchPage from "./Components/SearchPage";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom';
-import {Grid, Typography, Box} from '@mui/material';
-import {initializeHeadlessEngine} from './common/Engine';
-import {SearchEngine} from '@coveo/headless';
-import { Checkout } from './pages/Checkout';
-import { ScenarioButton } from './Components/ScenarioButton';
+} from "react-router-dom";
+import { Grid, Typography, Box } from "@mui/material";
+import { initializeHeadlessEngine } from "./common/Engine";
+import { SearchEngine } from "@coveo/headless";
+import { Checkout } from "./pages/Checkout";
+import { ScenarioButton } from "./Components/ScenarioButton";
 
 export default function App() {
   return (
     <Router>
-      <ScenarioButton/>
+      <ScenarioButton />
       <Routes>
         <Route
           path="/"
           element={
-            <Navigate to={isEnvValid() === true ? '/home' : '/error'} replace />
+            <Navigate to={isEnvValid() === true ? "/home" : "/error"} replace />
           }
         />
         <Route path="/home" element={<Home />} />
@@ -33,11 +33,11 @@ export default function App() {
 
 const isEnvValid = () => {
   const variables = [
-    'REACT_APP_PLATFORM_URL',
-    'REACT_APP_ORGANIZATION_ID',
-    'REACT_APP_API_KEY',
-    'REACT_APP_USER_EMAIL',
-    'REACT_APP_SERVER_PORT',
+    "REACT_APP_PLATFORM_URL",
+    "REACT_APP_ORGANIZATION_ID",
+    "REACT_APP_API_KEY",
+    "REACT_APP_USER_EMAIL",
+    "REACT_APP_SERVER_PORT",
   ];
   const reducer = (previousValue: boolean, currentValue: string) =>
     previousValue && Boolean(process.env[currentValue]);
@@ -55,9 +55,7 @@ const Home = () => {
 
   if (engine) {
     return (
-      <div className="App">
-        {engine && <SearchPage engine={engine} />}
-      </div>
+      <div className="App">{engine && <SearchPage engine={engine} />}</div>
     );
   } else {
     return <div>Waiting for engine</div>;

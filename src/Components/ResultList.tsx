@@ -1,6 +1,6 @@
-import {FunctionComponent, useContext, useEffect, useState} from 'react';
-import List from '@mui/material/List';
-import {ListItem, Box, Typography} from '@mui/material';
+import { FunctionComponent, useContext, useEffect, useState } from "react";
+import List from "@mui/material/List";
+import { ListItem, Box, Typography } from "@mui/material";
 import {
   buildResultList,
   Result,
@@ -9,9 +9,9 @@ import {
   ResultList as HeadlessResultList,
   buildInteractiveResult,
   SearchEngine,
-} from '@coveo/headless';
-import EngineContext from '../common/engineContext';
-import { useCart } from './useCart';
+} from "@coveo/headless";
+import EngineContext from "../common/engineContext";
+import { useCart } from "./useCart";
 
 type Template = (result: Result) => React.ReactNode;
 
@@ -20,7 +20,7 @@ export function filterProtocol(uri: string) {
   const isAbsolute = /^(https?|ftp|file|mailto|tel):/i.test(uri);
   const isRelative = /^(\/|\.\/|\.\.\/)/.test(uri);
 
-  return isAbsolute || isRelative ? uri : '';
+  return isAbsolute || isRelative ? uri : "";
 }
 
 interface FieldValueInterface {
@@ -33,7 +33,7 @@ interface ResultListProps {
 }
 function ListItemLink(engine: SearchEngine, result: Result) {
   const interactiveResult = buildInteractiveResult(engine, {
-    options: {result},
+    options: { result },
   });
   return (
     <a
@@ -57,7 +57,7 @@ function FieldValue(props: FieldValueInterface) {
     <Box>
       <Typography
         color="textSecondary"
-        style={{fontWeight: 'bold'}}
+        style={{ fontWeight: "bold" }}
         variant="caption"
       >
         {props.caption}:&nbsp;
@@ -70,10 +70,17 @@ function FieldValue(props: FieldValueInterface) {
 }
 
 const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
-  const {controller} = props;
+  const { controller } = props;
   const engine = useContext(EngineContext)!;
-  const {addProduct} = useCart()
+  const { addProduct } = useCart();
   const [state, setState] = useState(controller.state);
+
+  function addToCart(result: Result) {
+    addProduct(result);
+    logAddToCart();
+  }
+
+  function logAddToCart() {}
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =
     buildResultTemplatesManager(engine);
@@ -99,7 +106,9 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
           {result.raw.objecttype && (
             <FieldValue caption="Object Type" value={result.raw.objecttype} />
           )}
-          <button className='add-to-cart-btn' onClick={() => addProduct(result)}>Add to cart</button>
+          <button className="add-to-cart-btn" onClick={() => addToCart(result)}>
+            Add to cart
+          </button>
         </Box>
       </ListItem>
     ),
