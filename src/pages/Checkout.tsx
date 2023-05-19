@@ -6,7 +6,7 @@ export function Checkout() {
   const [items, setItems] = useState<CartItem[]>([]);
   const { subscribe } = useCart();
 
-  useEffect(() => subscribe(setItems));
+  useEffect(() => subscribe(setItems), []);
 
   return (
     <div>
