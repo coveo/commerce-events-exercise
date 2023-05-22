@@ -43,10 +43,15 @@ export function useCart() {
     set([])
   }
 
+  function get() {
+    return store.value
+  }
+
   return {
     addProduct,
     removeProduct,
     removeAll,
     subscribe,
+    get
   }
 }
