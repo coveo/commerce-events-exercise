@@ -8,8 +8,6 @@ export interface AnalyticsEvent {
 const eventStore = buildStore<AnalyticsEvent[]>([])
 
 export function useEventStore() {
-  const { subscribe } = eventStore;
-
   function reset() {
     eventStore.set([])
   }
@@ -25,7 +23,6 @@ export function useEventStore() {
   return {
     reset,
     add,
-    subscribe,
     get
   }
 }
