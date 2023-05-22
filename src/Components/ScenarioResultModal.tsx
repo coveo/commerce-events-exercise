@@ -50,8 +50,8 @@ export function ScenarioResultModal(props: ScenarioResultModalProps) {
                 }`}</TableCell>
                 <TableCell>
                   <ul>
-                    {row.report.map((item) => (
-                      <li>{item.message}</li>
+                    {row.report.map((item, i) => (
+                      <li key={i}>{item.message}</li>
                     ))}
                   </ul>
                 </TableCell>
