@@ -18,8 +18,8 @@ export function useScenario() {
     await sleep(0.5)
     pay()
     await sleep(0.5)
-
     navigateToHome()
+    await sleep(0.5)
 
     const items = getCart()
     const events = getEvents()
@@ -67,7 +67,8 @@ function analyze(items: CartItem[], events: AnalyticsEvent[]) {
   return [
     checkAddToCart(items[0], events[0], 0),
     checkCheckoutPageView(events[1]),
-    checkPurchase(events[2], items)
+    checkPurchase(events[2], items),
+    checkHomePageView(events[3])
   ]
 }
 
@@ -93,6 +94,17 @@ function checkCheckoutPageView(event: AnalyticsEvent): EventReport {
     report: [
       assertPayload(event, 'hitType', 'pageview'),
       assertPayload(event, 'page', '/checkout')
+    ]
+  }
+}
+
+function checkHomePageView(event: AnalyticsEvent): EventReport {
+  return {
+    event: 'home pageview',
+    payload: event.payload,
+    report: [
+      assertPayload(event, 'hitType', 'pageview'),
+      assertPayload(event, 'page', '/home')
     ]
   }
 }
