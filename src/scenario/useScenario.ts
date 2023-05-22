@@ -15,7 +15,7 @@ export function useScenario() {
     openCart()
     await sleep(0.5)
     navigateToCheckout()
-
+    await sleep(0.5)
     pay()
     await sleep(0.5)
 
@@ -66,7 +66,8 @@ function sleep(seconds: number) {
 function analyze(items: CartItem[], events: AnalyticsEvent[]) {
   return [
     checkAddToCart(items[0], events[0], 0),
-    checkCheckoutPageView(events[1])
+    checkCheckoutPageView(events[1]),
+    checkPurchase(events[2], items)
   ]
 }
 
@@ -79,6 +80,47 @@ function checkAddToCart(cartItem: CartItem, event: AnalyticsEvent, index: number
 }
 
 function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, index: number) {
+  return [
+    assertPayload(event, 'action', 'add'),
+    ...assertProduct(event, cartItem, index)
+  ]
+}
+
+function checkCheckoutPageView(event: AnalyticsEvent): EventReport {
+  return {
+    event: 'checkout pageview',
+    payload: event.payload,
+    report: [
+      assertPayload(event, 'hitType', 'pageview'),
+      assertPayload(event, 'page', '/checkout')
+    ]
+  }
+}
+
+function checkPurchase(event: AnalyticsEvent, items: CartItem[]): EventReport {
+  return {
+    event: 'purchase',
+    payload: event.payload,
+    report: [
+      assertPayload(event, 'action', 'purchase'),
+      ...items.flatMap((item, i) => assertProduct(event, item, i)),
+      assertPayload(event, 'id', '931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912'),
+      assertPayload(event, 'revenue', sumCart(items)),
+    ]
+  }
+}
+
+function sumCart(items: CartItem[]) {
+  return items
+    .map(item => {
+      const rawPrice = item.product.raw.price
+      const price = typeof rawPrice === 'number' ? rawPrice : 0;
+      return price * item.quantity
+    })
+    .reduce((acc, curr) => acc + curr, 0)
+}
+
+function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number): ReportItem[] {
   const prefix = `pr${index + 1}`
   const id = `${prefix}id`
   const category = `${prefix}ca`
@@ -87,24 +129,12 @@ function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, inde
   const quantity = `${prefix}qt`
 
   return [
-    assertPayload(event, 'action', 'add'),
     assertPayload(event, id, cartItem.product.clickUri),
     assertPayload(event, category, cartItem.product.clickUri),
     assertPayload(event, price, cartItem.product.clickUri),
     assertPayload(event, name, cartItem.product.clickUri),
     assertPayload(event, quantity, cartItem.quantity),
   ]
-}
-
-function checkCheckoutPageView(event: AnalyticsEvent): EventReport {
-  return {
-    event: 'pageview',
-    payload: event.payload,
-    report: [
-      assertPayload(event, 'hitType', 'pageview'),
-      assertPayload(event, 'page', '/checkout')
-    ]
-  }
 }
 
 function assertPayload(event: AnalyticsEvent, key: string, value: any): ReportItem {
