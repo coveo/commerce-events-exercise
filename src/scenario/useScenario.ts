@@ -19,10 +19,10 @@ export function useScenario() {
     pay()
     await sleep(0.5)
 
+    navigateToHome()
+
     const items = getCart()
     const events = getEvents()
-
-    navigateToHome()
     emptyCart()
 
     const scoreCard = analyze(items, events)
@@ -65,11 +65,12 @@ function sleep(seconds: number) {
 
 function analyze(items: CartItem[], events: AnalyticsEvent[]) {
   return [
-    checkAddToCartEvent(items[0], events[0], 0)
+    checkAddToCart(items[0], events[0], 0),
+    checkCheckoutPageView(events[1])
   ]
 }
 
-function checkAddToCartEvent(cartItem: CartItem, event: AnalyticsEvent, index: number): EventReport {
+function checkAddToCart(cartItem: CartItem, event: AnalyticsEvent, index: number): EventReport {
   return {
     event: 'addToCart',
     payload: event.payload,
@@ -93,6 +94,17 @@ function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, inde
     assertPayload(event, name, cartItem.product.clickUri),
     assertPayload(event, quantity, cartItem.quantity),
   ]
+}
+
+function checkCheckoutPageView(event: AnalyticsEvent): EventReport {
+  return {
+    event: 'pageview',
+    payload: event.payload,
+    report: [
+      assertPayload(event, 'hitType', 'pageview'),
+      assertPayload(event, 'page', '/checkout')
+    ]
+  }
 }
 
 function assertPayload(event: AnalyticsEvent, key: string, value: any): ReportItem {
