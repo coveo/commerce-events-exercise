@@ -18,9 +18,14 @@ export function useEventStore() {
     eventStore.set([...eventStore.value, event])
   }
 
+  function get() {
+    return eventStore.value
+  }
+
   return {
     reset,
     add,
-    subscribe
+    subscribe,
+    get
   }
 }
