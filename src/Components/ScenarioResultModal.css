@@ -7,4 +7,5 @@
   background-color: white;
   border: black solid 1px;
   z-index: 2;
+  overflow-y: scroll;
 }
