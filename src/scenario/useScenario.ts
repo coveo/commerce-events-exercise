@@ -1,9 +1,11 @@
 import { CartItem, useCart } from "../Components/useCart";
 import { AnalyticsEvent, useEventStore } from "./useEventStore";
+import { EventReport, ReportItem, useScoreCardStore } from "./useScoreCard";
 
 export function useScenario() {
   const { reset: resetEventStore, get: getEvents } = useEventStore()
   const { removeAll: emptyCart, get: getCart } = useCart();
+  const { set: setScoreCard } = useScoreCardStore()
 
   async function run() {
     resetEventStore()
@@ -23,7 +25,8 @@ export function useScenario() {
     navigateToHome()
     emptyCart()
 
-    analyze(items, events)
+    const scoreCard = analyze(items, events)
+    setScoreCard(scoreCard)
   }
 
   return {
@@ -61,16 +64,12 @@ function sleep(seconds: number) {
 }
 
 function analyze(items: CartItem[], events: AnalyticsEvent[]) {
-  const result = checkAddToCartEvent(items[0], events[0], 0)
-  console.log(result)
+  return [
+    checkAddToCartEvent(items[0], events[0], 0)
+  ]
 }
 
-interface Report {
-  valid: boolean;
-  message: string;
-}
-
-function checkAddToCartEvent(cartItem: CartItem, event: AnalyticsEvent, index: number) {
+function checkAddToCartEvent(cartItem: CartItem, event: AnalyticsEvent, index: number): EventReport {
   return {
     event: 'addToCart',
     payload: event.payload,
@@ -96,7 +95,7 @@ function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, inde
   ]
 }
 
-function assertPayload(event: AnalyticsEvent, key: string, value: any): Report {
+function assertPayload(event: AnalyticsEvent, key: string, value: any): ReportItem {
   if (event.payload[key] !== value) {
     const message = `expected ${key} to be "${value}"`
     return { valid: false, message }
