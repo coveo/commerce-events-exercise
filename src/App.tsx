@@ -11,8 +11,15 @@ import { initializeHeadlessEngine } from "./common/Engine";
 import { SearchEngine } from "@coveo/headless";
 import { Checkout } from "./pages/Checkout";
 import { ScenarioButton } from "./Components/ScenarioButton";
+import { useCoveoAnalytics } from "./scenario/useCoveoAnalytics";
 
 export default function App() {
+  const { coveoua } = useCoveoAnalytics();
+
+  useEffect(() => {
+    coveoua("init", "<insert api key here>");
+  }, []);
+
   return (
     <Router>
       <ScenarioButton />
