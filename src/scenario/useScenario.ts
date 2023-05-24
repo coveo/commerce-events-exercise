@@ -13,13 +13,13 @@ export function useScenario() {
     addItemToCart()
 
     openCart()
-    await sleep(0.5)
+    await sleep()
     navigateToCheckout()
-    await sleep(0.5)
+    await sleep()
     pay()
-    await sleep(0.5)
+    await sleep()
     navigateToHome()
-    await sleep(0.5)
+    await sleep()
 
     const items = getCart()
     const events = getEvents()
@@ -59,7 +59,7 @@ function clickButton(selector: string) {
   el && el.click()
 }
 
-function sleep(seconds: number) {
+function sleep(seconds: number = 0.5) {
   return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
