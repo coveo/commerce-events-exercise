@@ -12,7 +12,7 @@ export function useScenario() {
     emptyCart()
     addItemToCart()
 
-    openCart()
+    isCartClosed() && openCart()
     await sleep()
     navigateToCheckout()
     await sleep()
@@ -36,6 +36,10 @@ export function useScenario() {
 
 function addItemToCart() {
   clickButton('.add-to-cart-btn')
+}
+
+function isCartClosed() {
+  return !document.querySelector('.cart-list')
 }
 
 function openCart() {
