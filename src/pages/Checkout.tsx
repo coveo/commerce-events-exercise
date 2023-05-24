@@ -17,7 +17,7 @@ export function Checkout() {
         </div>
       ))}
       <button className="pay-btn">Pay</button>
-      <Link className="home-btn" to='/home'><button>Home</button></Link>
+      <Link className="home-btn" to='/search'><button>Home</button></Link>
     </div>
   );
 }
