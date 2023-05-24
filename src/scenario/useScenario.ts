@@ -112,11 +112,11 @@ function getPayload(event: LoggedAnalyticsEvent) {
 
 function checkHomePageView(event: LoggedAnalyticsEvent): EventReport {
   return {
-    event: 'home pageview',
+    event: 'search pageview',
     payload: getPayload(event),
     report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
-      assertPayload(event, 'page', '/home')
+      assertPayload(event, 'page', '/search')
     ] : [],
     missing: !event
   }

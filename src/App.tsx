@@ -27,10 +27,13 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Navigate to={isEnvValid() === true ? "/home" : "/error"} replace />
+            <Navigate
+              to={isEnvValid() === true ? "/search" : "/error"}
+              replace
+            />
           }
         />
-        <Route path="/home" element={<Home />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/error" element={<Error />} />
       </Routes>
@@ -51,7 +54,7 @@ const isEnvValid = () => {
   return variables.reduce(reducer, true);
 };
 
-const Home = () => {
+const Search = () => {
   const [engine, setEngine] = React.useState<SearchEngine | null>(null);
 
   useEffect(() => {
