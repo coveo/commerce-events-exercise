@@ -53,7 +53,7 @@ export function ScenarioResultModal(props: ScenarioResultModalProps) {
                 <TableCell>
                   <ul>
                     {row.report.map((item, i) => (
-                      <li key={i}>{item.message}</li>
+                      <li key={i}>{displayItem(item)}</li>
                     ))}
                   </ul>
                 </TableCell>
@@ -77,4 +77,24 @@ function displayScoreAsFraction(report: ReportItem[]) {
 
 function numOfValidItems(report: ReportItem[]) {
   return report.filter((item) => item.valid).length;
+}
+
+function displayItem(item: ReportItem) {
+  const { valid, key, received, expected } = item;
+  if (valid) {
+    return (
+      <p>
+        {bold(key)} equal to {bold(received)} is correct
+      </p>
+    );
+  }
+  return (
+    <p>
+      Expected {bold(key)} to be {bold(expected)} instead of {bold(received)}{" "}
+    </p>
+  );
+}
+
+function bold(value: string) {
+  return <b>{value}</b>;
 }

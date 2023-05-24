@@ -163,11 +163,7 @@ function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number)
   ]
 }
 
-function assertPayload(event: AnalyticsEvent, key: string, value: any): ReportItem {
-  if (event.payload[key] !== value) {
-    const message = `expected ${key} to be "${value}"`
-    return { valid: false, message }
-  }
-
-  return { valid: true, message: `${key} is correct` }
+function assertPayload(event: AnalyticsEvent, key: string, expected: any): ReportItem {
+  const received = event.payload[key]
+  return { valid: expected === received, key, expected, received }
 }

@@ -9,7 +9,9 @@ export interface EventReport {
 
 export interface ReportItem {
   valid: boolean;
-  message: string;
+  key: string;
+  expected: string;
+  received: string;
 }
 
 const store = buildStore<EventReport[]>([])
