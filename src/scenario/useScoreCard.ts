@@ -1,9 +1,10 @@
 import { buildStore } from "../common/store";
 
 export interface EventReport {
-  event: 'addToCart' | 'checkout pageview' | 'purchase' | 'home pageview',
-  payload: Object,
+  event: 'addToCart' | 'checkout pageview' | 'purchase' | 'home pageview'
+  payload: Object
   report: ReportItem[]
+  missing: boolean
 }
 
 export interface ReportItem {

@@ -72,11 +72,14 @@ function analyze(items: CartItem[], events: AnalyticsEvent[]) {
   ]
 }
 
-function checkAddToCart(cartItem: CartItem, event: AnalyticsEvent, index: number): EventReport {
+type LoggedAnalyticsEvent = AnalyticsEvent | undefined
+
+function checkAddToCart(cartItem: CartItem, event: LoggedAnalyticsEvent, index: number): EventReport {
   return {
     event: 'addToCart',
-    payload: event.payload,
-    report: getAddToCartEventReport(cartItem, event, index)
+    payload: getPayload(event),
+    report: event ? getAddToCartEventReport(cartItem, event, index) : [],
+    missing: !event
   }
 }
 
@@ -87,38 +90,45 @@ function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, inde
   ]
 }
 
-function checkCheckoutPageView(event: AnalyticsEvent): EventReport {
+function checkCheckoutPageView(event: LoggedAnalyticsEvent): EventReport {
   return {
     event: 'checkout pageview',
-    payload: event.payload,
-    report: [
+    payload: getPayload(event),
+    report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
       assertPayload(event, 'page', '/checkout')
-    ]
+    ] : [],
+    missing: !event
   }
 }
 
-function checkHomePageView(event: AnalyticsEvent): EventReport {
+function getPayload(event: LoggedAnalyticsEvent) {
+  return event ? event.payload : {}
+}
+
+function checkHomePageView(event: LoggedAnalyticsEvent): EventReport {
   return {
     event: 'home pageview',
-    payload: event.payload,
-    report: [
+    payload: getPayload(event),
+    report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
       assertPayload(event, 'page', '/home')
-    ]
+    ] : [],
+    missing: !event
   }
 }
 
-function checkPurchase(event: AnalyticsEvent, items: CartItem[]): EventReport {
+function checkPurchase(event: LoggedAnalyticsEvent, items: CartItem[]): EventReport {
   return {
     event: 'purchase',
-    payload: event.payload,
-    report: [
+    payload: getPayload(event),
+    report: event ? [
       assertPayload(event, 'action', 'purchase'),
       ...items.flatMap((item, i) => assertProduct(event, item, i)),
       assertPayload(event, 'id', '931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912'),
       assertPayload(event, 'revenue', sumCart(items)),
-    ]
+    ] : [],
+    missing: !event
   }
 }
 

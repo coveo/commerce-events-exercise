@@ -1,5 +1,9 @@
 import "./ScenarioResultModal.css";
-import { ReportItem, useScoreCardStore } from "../scenario/useScoreCard";
+import {
+  EventReport,
+  ReportItem,
+  useScoreCardStore,
+} from "../scenario/useScoreCard";
 import {
   Paper,
   Table,
@@ -45,9 +49,7 @@ export function ScenarioResultModal(props: ScenarioResultModalProps) {
                 <TableCell sx={{ maxWidth: 560, overflowX: "scroll" }}>
                   <pre>{JSON.stringify(row.payload, null, 2)}</pre>
                 </TableCell>
-                <TableCell>{`${validCount(row.report)}/${
-                  row.report.length
-                }`}</TableCell>
+                <TableCell>{displayScore(row)}</TableCell>
                 <TableCell>
                   <ul>
                     {row.report.map((item, i) => (
@@ -64,6 +66,15 @@ export function ScenarioResultModal(props: ScenarioResultModalProps) {
   );
 }
 
-function validCount(report: ReportItem[]) {
+function displayScore(eventReport: EventReport) {
+  const { missing, report } = eventReport;
+  return missing ? "missing" : displayScoreAsFraction(report);
+}
+
+function displayScoreAsFraction(report: ReportItem[]) {
+  return `${numOfValidItems(report)}/${report.length}`;
+}
+
+function numOfValidItems(report: ReportItem[]) {
   return report.filter((item) => item.valid).length;
 }
