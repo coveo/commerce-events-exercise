@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import List from "@mui/material/List";
-import { ListItem, Box, Typography } from "@mui/material";
+import { ListItem, Box, Typography, Grid } from "@mui/material";
 import {
   buildResultList,
   Result,
@@ -77,10 +77,7 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
 
   function addToCart(result: Result) {
     addProduct(result);
-    logAddToCart();
   }
-
-  function logAddToCart() {}
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =
     buildResultTemplatesManager(engine);
@@ -89,27 +86,40 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
     conditions: [],
     content: (result: Result) => (
       <ListItem disableGutters key={result.uniqueId}>
-        <Box my={2}>
-          <Box pb={1}>{ListItemLink(engine, result)}</Box>
+        <Grid container>
+          <Grid item xs={4}>
+            <img style={{width: 160}} src={result.raw.ec_images as string} />
+          </Grid>
+          <Grid item xs={8}>
+            <Box my={2}>
+              <Box pb={1}>{ListItemLink(engine, result)}</Box>
 
-          {result.excerpt && (
-            <Box pb={1}>
-              <Typography color="textPrimary" variant="body2">
-                {result.excerpt}
-              </Typography>
+              {result.excerpt && (
+                <Box pb={1}>
+                  <Typography color="textPrimary" variant="body2">
+                    {result.excerpt}
+                  </Typography>
+                </Box>
+              )}
+
+              {result.raw.source && (
+                <FieldValue caption="Source" value={result.raw.source} />
+              )}
+              {result.raw.objecttype && (
+                <FieldValue
+                  caption="Object Type"
+                  value={result.raw.objecttype}
+                />
+              )}
+              <button
+                className="add-to-cart-btn"
+                onClick={() => addToCart(result)}
+              >
+                Add to cart
+              </button>
             </Box>
-          )}
-
-          {result.raw.source && (
-            <FieldValue caption="Source" value={result.raw.source} />
-          )}
-          {result.raw.objecttype && (
-            <FieldValue caption="Object Type" value={result.raw.objecttype} />
-          )}
-          <button className="add-to-cart-btn" onClick={() => addToCart(result)}>
-            Add to cart
-          </button>
-        </Box>
+          </Grid>
+        </Grid>
       </ListItem>
     ),
   });
@@ -131,7 +141,18 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
 
 const ResultList = () => {
   const engine = useContext(EngineContext)!;
-  const controller = buildResultList(engine);
+  const controller = buildResultList(engine, {
+    options: {
+      fieldsToInclude: [
+        "ec_name",
+        "ec_brand",
+        "ec_category",
+        "ec_price",
+        "ec_productid",
+        "ec_images",
+      ],
+    },
+  });
   return <ResultListRenderer controller={controller} />;
 };
 

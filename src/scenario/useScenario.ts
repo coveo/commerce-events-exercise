@@ -155,10 +155,10 @@ function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number)
   const quantity = `${prefix}qt`
 
   return [
-    assertPayload(event, id, cartItem.product.clickUri),
-    assertPayload(event, category, cartItem.product.clickUri),
-    assertPayload(event, price, cartItem.product.clickUri),
-    assertPayload(event, name, cartItem.product.clickUri),
+    assertPayload(event, id, cartItem.product.raw.ec_productid),
+    assertPayload(event, category, cartItem.product.raw.ec_category),
+    assertPayload(event, price, cartItem.product.raw.ec_price),
+    assertPayload(event, name, cartItem.product.raw.ec_name),
     assertPayload(event, quantity, cartItem.quantity),
   ]
 }
