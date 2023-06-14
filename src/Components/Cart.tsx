@@ -28,7 +28,7 @@ function CartList(props: CartListProps) {
 
   return (
     <div className="cart-list">
-      <div>My cart</div>
+      <h4 className="cart-title">My cart</h4>
       {items.map((item) => (
         <div key={item.product.uniqueId}>
           {item.product.title} {item.quantity}

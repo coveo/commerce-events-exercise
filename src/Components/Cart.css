@@ -4,5 +4,12 @@
 
 .cart-list {
   position: absolute;
-  border: black solid 1px
+  border: black solid 1px;
+  background-color: white;
+  padding: 8px;
+  z-index: 1;
+}
+
+.cart-title {
+  margin: 0
 }
