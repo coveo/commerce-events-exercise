@@ -9,11 +9,13 @@ export function Cart() {
   const [showCart, setShowCart] = useState(false);
   const toggleCart = () => setShowCart(!showCart);
 
-  useEffect(() => subscribe(setItems), []);
+  useEffect(() => subscribe((state) => setItems(state.items)), []);
 
   return (
     <div className="cart">
-      <button id="cart-btn" onClick={toggleCart}>cart</button>
+      <button id="cart-btn" onClick={toggleCart}>
+        cart
+      </button>
       {showCart ? <CartList items={items} /> : null}
     </div>
   );
@@ -34,7 +36,9 @@ function CartList(props: CartListProps) {
           {item.product.title} {item.quantity}
         </div>
       ))}
-      <Link id="checkout-btn" to="/checkout">Checkout</Link>
+      <Link id="checkout-btn" to="/checkout">
+        Checkout
+      </Link>
     </div>
   );
 }

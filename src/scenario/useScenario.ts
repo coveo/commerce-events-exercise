@@ -4,7 +4,7 @@ import { EventReport, ReportItem, useScoreCardStore } from "./useScoreCard";
 
 export function useScenario() {
   const { reset: resetEventStore, get: getEvents } = useEventStore()
-  const { removeAll: emptyCart, get: getCart } = useCart();
+  const { removeAll: emptyCart, get: getCartState } = useCart();
   const { set: setScoreCard } = useScoreCardStore()
 
   async function run() {
@@ -21,11 +21,11 @@ export function useScenario() {
     navigateToHome()
     await sleep()
 
-    const items = getCart()
+    const cartState = getCartState()
     const events = getEvents()
     emptyCart()
 
-    const scoreCard = analyze(items, events)
+    const scoreCard = analyze(cartState.items, events)
     setScoreCard(scoreCard)
   }
 

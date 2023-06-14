@@ -8,7 +8,7 @@ export function Checkout() {
   const [paid, setPaid] = useState(false);
   const { subscribe } = useCart();
 
-  useEffect(() => subscribe(setItems), []);
+  useEffect(() => subscribe((state) => setItems(state.items)), []);
 
   function pay() {
     setPaid(true);
