@@ -73,17 +73,18 @@ function FieldValue(props: FieldValueInterface) {
 const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
   const { controller } = props;
   const engine = useContext(EngineContext)!;
-  const { addProduct } = useCart();
+  const { addProduct, openCart } = useCart();
   const [state, setState] = useState(controller.state);
   const { coveoua } = useCoveoAnalytics();
 
   function addToCart(result: Result) {
     addProduct(result);
+    openCart();
     logAddToCart();
   }
 
   function logAddToCart() {
-    console.log(coveoua)
+    console.log(coveoua);
   }
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =
@@ -95,7 +96,7 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
       <ListItem disableGutters key={result.uniqueId}>
         <Grid container>
           <Grid item xs={4}>
-            <img style={{width: 160}} src={result.raw.ec_images as string} />
+            <img style={{ width: 160 }} src={result.raw.ec_images as string} />
           </Grid>
           <Grid item xs={8}>
             <Box my={2}>
