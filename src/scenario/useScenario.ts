@@ -10,8 +10,9 @@ export function useScenario() {
   async function run() {
     resetEventStore()
     emptyCart()
-    addItemToCart()
 
+    addItemToCart()
+    await sleep()
     isCartClosed() && openCart()
     await sleep()
     navigateToCheckout()
@@ -23,7 +24,6 @@ export function useScenario() {
 
     const cartState = getCartState()
     const events = getEvents()
-    emptyCart()
 
     const scoreCard = analyze(cartState.items, events)
     setScoreCard(scoreCard)
