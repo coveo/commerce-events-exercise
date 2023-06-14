@@ -1,7 +1,7 @@
 import { Result } from "@coveo/headless";
 import { buildStore } from "../common/store";
 
-interface CartState {
+export interface CartState {
   items: CartItem[];
   isOpen: boolean;
 }
@@ -56,10 +56,22 @@ export function useCart() {
     return store.value
   }
 
+  function openCart() {
+    const state = store.value
+    set({ ...state, isOpen: true })
+  }
+
+  function toggleCart() {
+    const state = store.value
+    set({ ...state, isOpen: !state.isOpen })
+  }
+
   return {
     addProduct,
     removeProduct,
     removeAll,
+    openCart,
+    toggleCart,
     subscribe,
     get
   }

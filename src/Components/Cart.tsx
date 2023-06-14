@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import "./Cart.css";
 import { Link } from "react-router-dom";
-import { CartItem, useCart } from "./useCart";
+import { CartItem, CartState, useCart } from "./useCart";
 
 export function Cart() {
-  const { subscribe } = useCart();
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [showCart, setShowCart] = useState(false);
-  const toggleCart = () => setShowCart(!showCart);
+  const { subscribe, toggleCart } = useCart();
+  const [cartState, setCartState] = useState<CartState>({
+    items: [],
+    isOpen: false,
+  });
 
-  useEffect(() => subscribe((state) => setItems(state.items)), []);
+  useEffect(() => subscribe(setCartState), []);
 
   return (
     <div className="cart">
       <button id="cart-btn" onClick={toggleCart}>
         cart
       </button>
-      {showCart ? <CartList items={items} /> : null}
+      {cartState.isOpen ? <CartList items={cartState.items} /> : null}
     </div>
   );
 }
