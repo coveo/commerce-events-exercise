@@ -12,6 +12,7 @@ import {
 } from "@coveo/headless";
 import EngineContext from "../common/engineContext";
 import { useCart } from "./useCart";
+import { useCoveoAnalytics } from "../scenario/useCoveoAnalytics";
 
 type Template = (result: Result) => React.ReactNode;
 
@@ -74,9 +75,15 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
   const engine = useContext(EngineContext)!;
   const { addProduct } = useCart();
   const [state, setState] = useState(controller.state);
+  const { coveoua } = useCoveoAnalytics();
 
   function addToCart(result: Result) {
     addProduct(result);
+    logAddToCart();
+  }
+
+  function logAddToCart() {
+    console.log(coveoua)
   }
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =

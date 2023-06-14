@@ -56,12 +56,18 @@ const isEnvValid = () => {
 
 const Search = () => {
   const [engine, setEngine] = React.useState<SearchEngine | null>(null);
+  const { coveoua } = useCoveoAnalytics();
 
   useEffect(() => {
     initializeHeadlessEngine().then((engine) => {
       setEngine(engine);
+      logPageView();
     });
   }, []);
+
+  function logPageView() {
+    console.log(coveoua)
+  }
 
   if (engine) {
     return (
