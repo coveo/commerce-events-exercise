@@ -1,8 +1,13 @@
 import { CartItem, useCart } from "../Components/useCart";
 import { AnalyticsEvent, useEventStore } from "./useEventStore";
 import { EventReport, ReportItem, useScoreCardStore } from "./useScoreCard";
+import { SearchEngine } from "@coveo/headless";
 
-export function useScenario() {
+export interface NullableSearchEngine {
+  engine: SearchEngine | null
+}
+
+export function useScenario(props: NullableSearchEngine) {
   const { reset: resetEventStore, get: getEvents } = useEventStore()
   const { removeAll: emptyCart, get: getCartState } = useCart();
   const { set: setScoreCard } = useScoreCardStore()
@@ -10,6 +15,8 @@ export function useScenario() {
   async function run() {
     resetEventStore()
     emptyCart()
+
+    const searchQueryUid = props.engine!.state.search.response.searchUid
 
     addItemToCart()
     await sleep()
@@ -28,7 +35,7 @@ export function useScenario() {
     emptyCart()
     toggleCart()
 
-    const scoreCard = analyze(cartState.items, events)
+    const scoreCard = analyze(cartState.items, events, searchQueryUid)
     setScoreCard(scoreCard)
   }
 
@@ -70,11 +77,11 @@ function sleep(seconds: number = 0.5) {
   return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
-function analyze(items: CartItem[], events: AnalyticsEvent[]) {
+function analyze(items: CartItem[], events: AnalyticsEvent[], searchQueryUid: string) {
   const [click, addToCart, checkoutPageView, purchase, searchPageView] = events;
 
   return [
-    checkClick(click, items[0]),
+    checkClick(click, items[0], searchQueryUid),
     checkAddToCart(addToCart, items[0], 0),
     checkCheckoutPageView(checkoutPageView),
     checkPurchase(purchase, items),
@@ -84,17 +91,33 @@ function analyze(items: CartItem[], events: AnalyticsEvent[]) {
 
 type LoggedAnalyticsEvent = AnalyticsEvent | undefined
 
-function checkClick(event: LoggedAnalyticsEvent, cartItem: CartItem): EventReport {
+function checkClick(event: LoggedAnalyticsEvent, cartItem: CartItem, searchQueryUid: string): EventReport {
   return {
     event: 'click',
     payload: getPayload(event),
-    report: event ? getClickEventReport(cartItem, event) : [],
+    report: event ? getClickEventReport(cartItem, event, searchQueryUid) : [],
     missing: !event
   }
 }
 
-function getClickEventReport(cartItem: CartItem, event: AnalyticsEvent) {
-  return []
+function getClickEventReport(cartItem: CartItem, event: AnalyticsEvent, searchQueryUid: string) {
+  const { product } = cartItem;
+  return [
+    assertPayload(event, 'actionCause', 'documentOpen'),
+    assertPayload(event, 'anonymous', true),
+    assertPayload(event, 'documentPosition', 1),
+    assertPayload(event, 'documentTitle', product.title),
+    assertPayload(event, 'documentUriHash', product.raw.urihash),
+    assertPayload(event, 'documentUrl', product.uri),
+    assertPayload(event, 'language', 'en'),
+    assertPayload(event, 'originLevel1', 'default'),
+    assertPayload(event, 'searchQueryUid', searchQueryUid),
+    assertPayload(event, 'sourceName', product.raw.source),
+    assertPayload(event, 'userAgent', navigator.userAgent),
+    assertCustomData(event, 'contentIDKey', 'permanentId'),
+    assertCustomData(event, 'contentIDValue', product.raw.permanentid),
+    assertCustomData(event, 'context_website', 'Commerce Store')
+  ]
 }
 
 function checkAddToCart(event: LoggedAnalyticsEvent, cartItem: CartItem, index: number): EventReport {
@@ -184,5 +207,14 @@ function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number)
 
 function assertPayload(event: AnalyticsEvent, key: string, expected: any): ReportItem {
   const received = event.payload[key]
-  return { valid: expected === received, key, expected, received }
+  return buildReportItem(key, expected, received)
+}
+
+function assertCustomData(event: AnalyticsEvent, key: string, expected: any): ReportItem {
+  const received = event.payload['customData'][key]
+  return buildReportItem(key, expected, received)
+}
+
+function buildReportItem(key: string, expected: string, received: string): ReportItem {
+  return { valid: expected === received, key, expected, received: `${received}` }
 }

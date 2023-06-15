@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useScenario } from "../scenario/useScenario";
+import { NullableSearchEngine, useScenario } from "../scenario/useScenario";
 import { ScenarioResultModal } from "./ScenarioResultModal";
 
-export function ScenarioButton() {
+export function ScenarioButton(props: NullableSearchEngine) {
   const [showModal, setShowModal] = useState(false);
-  const { run } = useScenario();
+  const { run } = useScenario(props);
 
   async function runScenario() {
     await run();
