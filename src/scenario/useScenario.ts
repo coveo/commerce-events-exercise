@@ -68,17 +68,33 @@ function sleep(seconds: number = 0.5) {
 }
 
 function analyze(items: CartItem[], events: AnalyticsEvent[]) {
+  const [click, addToCart, checkoutPageView, purchase, searchPageView] = events;
+
   return [
-    checkAddToCart(items[0], events[0], 0),
-    checkCheckoutPageView(events[1]),
-    checkPurchase(events[2], items),
-    checkHomePageView(events[3])
+    checkClick(click, items[0]),
+    checkAddToCart(addToCart, items[0], 0),
+    checkCheckoutPageView(checkoutPageView),
+    checkPurchase(purchase, items),
+    checkHomePageView(searchPageView)
   ]
 }
 
 type LoggedAnalyticsEvent = AnalyticsEvent | undefined
 
-function checkAddToCart(cartItem: CartItem, event: LoggedAnalyticsEvent, index: number): EventReport {
+function checkClick(event: LoggedAnalyticsEvent, cartItem: CartItem): EventReport {
+  return {
+    event: 'click',
+    payload: getPayload(event),
+    report: event ? getClickEventReport(cartItem, event) : [],
+    missing: !event
+  }
+}
+
+function getClickEventReport(cartItem: CartItem, event: AnalyticsEvent) {
+  return []
+}
+
+function checkAddToCart(event: LoggedAnalyticsEvent, cartItem: CartItem, index: number): EventReport {
   return {
     event: 'addToCart',
     payload: getPayload(event),
