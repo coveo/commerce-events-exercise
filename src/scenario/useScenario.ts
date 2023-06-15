@@ -78,7 +78,7 @@ function analyze(items: CartItem[], events: AnalyticsEvent[]) {
     checkAddToCart(addToCart, items[0], 0),
     checkCheckoutPageView(checkoutPageView),
     checkPurchase(purchase, items),
-    checkHomePageView(searchPageView)
+    checkSearchPageView(searchPageView)
   ]
 }
 
@@ -129,7 +129,7 @@ function getPayload(event: LoggedAnalyticsEvent) {
   return event ? event.payload : {}
 }
 
-function checkHomePageView(event: LoggedAnalyticsEvent): EventReport {
+function checkSearchPageView(event: LoggedAnalyticsEvent): EventReport {
   return {
     event: 'search pageview',
     payload: getPayload(event),
