@@ -14,15 +14,17 @@ import { ScenarioButton } from "./Components/ScenarioButton";
 import { useCoveoAnalytics } from "./scenario/useCoveoAnalytics";
 
 export default function App() {
+  const [engine, setEngine] = React.useState<SearchEngine | null>(null);
   const { coveoua } = useCoveoAnalytics();
 
   useEffect(() => {
+    initializeHeadlessEngine().then((engine) => setEngine(engine));
     coveoua("init", "<insert api key here>");
   }, []);
 
   return (
     <Router>
-      <ScenarioButton />
+      <ScenarioButton engine={engine} />
       <Routes>
         <Route
           path="/"
@@ -33,7 +35,7 @@ export default function App() {
             />
           }
         />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<Search engine={engine} />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/error" element={<Error />} />
       </Routes>
@@ -54,19 +56,20 @@ const isEnvValid = () => {
   return variables.reduce(reducer, true);
 };
 
-const Search = () => {
-  const [engine, setEngine] = React.useState<SearchEngine | null>(null);
+interface SearchProps {
+  engine: SearchEngine | null;
+}
+
+const Search = (props: SearchProps) => {
+  const { engine } = props;
   const { coveoua } = useCoveoAnalytics();
 
   useEffect(() => {
-    initializeHeadlessEngine().then((engine) => {
-      setEngine(engine);
-      logPageView();
-    });
+    logPageView();
   }, []);
 
   function logPageView() {
-    console.log(coveoua)
+    console.log(coveoua);
   }
 
   if (engine) {
