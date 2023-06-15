@@ -18,7 +18,7 @@ export default function App() {
   const { coveoua } = useCoveoAnalytics();
 
   useEffect(() => {
-    initializeHeadlessEngine().then((engine) => setEngine(engine));
+    setEngine(initializeHeadlessEngine());
     coveoua("init", "<insert api key here>");
   }, []);
 
