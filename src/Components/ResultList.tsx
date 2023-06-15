@@ -80,8 +80,11 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
   function addToCart(result: Result) {
     addProduct(result);
     openCart();
+    logClick(result);
     logAddToCart();
   }
+
+  function logClick(result: Result) {}
 
   function logAddToCart() {
     console.log(coveoua);
