@@ -13,7 +13,7 @@ export function useScenario() {
 
     addItemToCart()
     await sleep()
-    isCartClosed() && openCart()
+    isCartClosed() && toggleCart()
     await sleep()
     navigateToCheckout()
     await sleep()
@@ -24,6 +24,9 @@ export function useScenario() {
 
     const cartState = getCartState()
     const events = getEvents()
+
+    emptyCart()
+    toggleCart()
 
     const scoreCard = analyze(cartState.items, events)
     setScoreCard(scoreCard)
@@ -42,7 +45,7 @@ function isCartClosed() {
   return !document.querySelector('.cart-list')
 }
 
-function openCart() {
+function toggleCart() {
   clickButton('#cart-btn')
 }
 
