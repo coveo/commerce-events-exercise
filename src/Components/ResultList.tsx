@@ -86,9 +86,7 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
 
   function logClick(result: Result) {}
 
-  function logAddToCart() {
-    console.log(coveoua);
-  }
+  function logAddToCart() {}
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =
     buildResultTemplatesManager(engine);
