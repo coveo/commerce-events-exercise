@@ -9,7 +9,6 @@ export function OverallScore(props: OverallScoreProps) {
 
   const max = scoreCard.length;
   const actual = sum(scoreCard.map(calculateEventScore));
-  const normalize = normalize10(max);
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -37,7 +36,6 @@ function sum(arr: number[]) {
   return arr.reduce((acc, curr) => acc + curr, 0);
 }
 
-function normalize10(max: number) {
-  const factor = 10 / max;
-  return (num: number) => num * factor;
+function normalize(num: number) {
+  return num * 2;
 }
