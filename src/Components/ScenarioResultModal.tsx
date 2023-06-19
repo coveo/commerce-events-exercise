@@ -13,6 +13,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { OverallScore } from "./ScenarioOverallScore";
 
 interface ScenarioResultModalProps {
   hideModal(): void;
@@ -27,6 +28,7 @@ export function ScenarioResultModal(props: ScenarioResultModalProps) {
   return (
     <div className="modal">
       <button onClick={hideModal}>x</button>
+      <OverallScore scoreCard={scoreCard} />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
