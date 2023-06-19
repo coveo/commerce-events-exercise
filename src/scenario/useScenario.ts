@@ -45,7 +45,7 @@ export function useScenario(props: NullableSearchEngine) {
 }
 
 function addItemToCart() {
-  clickButton('.add-to-cart-btn')
+  clickRandomButton('.add-to-cart-btn')
 }
 
 function isCartClosed() {
@@ -66,6 +66,18 @@ function pay() {
 
 function navigateToHome() {
   clickButton('.home-btn')
+}
+
+function clickRandomButton(selector: string) {
+  const elements = document.querySelectorAll<HTMLButtonElement>(selector)
+  const index = randomIndex(elements.length)
+  const el = elements.item(index)
+  el && el.click()
+}
+
+function randomIndex(length: number) {
+  const random = Math.random() * length
+  return Math.floor(random)
 }
 
 function clickButton(selector: string) {
