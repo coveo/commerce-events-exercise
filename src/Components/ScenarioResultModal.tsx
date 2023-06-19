@@ -84,14 +84,30 @@ function displayItem(item: ReportItem) {
   if (valid) {
     return (
       <p>
-        {bold(key)} equal to {bold(received)} is correct
+        {box("green")} {bold(key)} equal to {bold(received)} is correct
       </p>
     );
   }
   return (
     <p>
-      Expected {bold(key)} to be {bold(expected)} instead of {bold(received)}{" "}
+      {box("red")} Expected {bold(key)} to be {bold(expected)} instead of{" "}
+      {bold(received)}
     </p>
+  );
+}
+
+function box(color: string) {
+  return (
+    <span
+      style={{
+        height: 16,
+        width: 16,
+        backgroundColor: color,
+        display: "inline-block",
+        verticalAlign: "middle",
+        borderRadius: 8,
+      }}
+    ></span>
   );
 }
 

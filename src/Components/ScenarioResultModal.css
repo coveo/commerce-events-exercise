@@ -9,3 +9,8 @@
   z-index: 2;
   overflow-y: scroll;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
