@@ -68,9 +68,7 @@ const Search = (props: SearchProps) => {
     logPageView();
   }, []);
 
-  function logPageView() {
-    console.log(coveoua);
-  }
+  function logPageView() {}
 
   if (engine) {
     return (
