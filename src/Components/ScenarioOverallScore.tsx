@@ -12,7 +12,7 @@ export function OverallScore(props: OverallScoreProps) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      Overall score: {normalize(actual).toFixed(1)} / {normalize(max)}
+      Overall score: {prettify(normalize(actual))} / {normalize(max)}
     </div>
   );
 }
@@ -38,4 +38,8 @@ function sum(arr: number[]) {
 
 function normalize(num: number) {
   return num * 2;
+}
+
+function prettify(num: number) {
+  return Number.isInteger(num) ? num : num.toFixed(1);
 }
