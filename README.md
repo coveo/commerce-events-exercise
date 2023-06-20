@@ -1,53 +1,51 @@
-# Getting Started with Create React App
+# Exercise: Logging Commerce Events
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo contains a simple commerce site to practice implementing commerce events. The application provides a `Run scenario` button which when clicked will run a test scenario (described below) and give you feedback on the implemnted events.
 
-## Setup environment
+## The scenario
 
-You should have an `.env` file at the root of this project. You can use `.env.example` as starting point and make sure to replace all placeholder variables `<...>` by the proper information for your organization.
+The test scenrio simulates a simple checkout flow. It will:
 
-## Available Scripts
+1. Add a random product to the cart.
+2. Navigate to the checkout page.
+3. Pay
+4. Navigate to the search page.
 
-In the project directory, you can run:
+When the scenario is complete, a modal will show the intercepted events and feedback on the payloads.
 
-### `npm start`
+## The exercise
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The exercise is to implement the following events:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. A click event emitted when the `Add to cart` button is clicked.
+2. An add-to-cart event emitted when the `Add to cart` button is clicked.
+3. A page view event emitted when the checkout page is rendered.
+4. A purchase event emitted when the `Pay` button on the checkout page is clicked.
+5. A page view emitted when the search page is rendered.
 
-This command will also start an express server and will generate [Coveo search tokens](https://docs.coveo.com/en/1346/).
-_See [@coveo/search-token-server](https://www.npmjs.com/package/@coveo/search-token-server)_
+Placeholder functions that need to be implemented are included in the code. Search for `logClick`, `logAddToCart`, `logPageView` and `logPurchase`.
 
-### `npm test`
+Refer to the [documentation here](https://docs.coveo.com/en/3188/coveo-for-commerce/log-commerce-events) for information on how to emit the events and their expected payloads.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To test your implementation, click the `Run scenario` button.
 
-### `npm run build`
+## Scoring
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Each implemented event provides a maximum of 2 points.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 1 point for emitting the event.
+- A maximum of 1 point if all keys in the payload are correct. e.g. if only 50% of the payload is valid, 0.5 points will be awarded.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Setup
 
-### `npm run eject`
+Pick one of the following setup options:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### In browser
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Code in the [online sandbox](https://codesandbox.io/p/github/samisayegh/commerce-store/main?file=/README.md).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Local machine
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Clone the repo
+- Install dependencies: `npm i`
+- Start the server: `npm start`
