@@ -1,3 +1,4 @@
+import { SearchResponseSuccess } from "@coveo/headless/dist/definitions/api/search/search/search-response";
 import { CartItem, useCart } from "../Components/useCart";
 import { AnalyticsEvent, useEventStore } from "./useEventStore";
 import { EventReport, ReportItem, useScoreCardStore } from "./useScoreCard";
@@ -16,7 +17,7 @@ export function useScenario(props: NullableSearchEngine) {
     resetEventStore()
     emptyCart()
 
-    const searchQueryUid = props.engine!.state.search.response.searchUid
+    const searchResponse = props.engine!.state.search.response;
 
     addItemToCart()
     await sleep()
@@ -35,7 +36,7 @@ export function useScenario(props: NullableSearchEngine) {
     emptyCart()
     toggleCart()
 
-    const scoreCard = analyze(cartState.items, events, searchQueryUid)
+    const scoreCard = analyze(cartState.items, events, searchResponse)
     setScoreCard(scoreCard)
   }
 
@@ -89,7 +90,7 @@ function sleep(seconds: number = 0.5) {
   return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
-function analyze(items: CartItem[], events: AnalyticsEvent[], searchQueryUid: string) {
+function analyze(items: CartItem[], events: AnalyticsEvent[], searchResponse: SearchResponseSuccess) {
   const find = findIncrementally(events)
 
   const click = find((event) => event.payload.actionCause === 'documentOpen')
@@ -99,10 +100,11 @@ function analyze(items: CartItem[], events: AnalyticsEvent[], searchQueryUid: st
   const searchPageView = find((event) => event.payload.page === '/search')
 
   const [item] = items;
+  const itemIndex = 0;
 
   return [
-    checkClick(click, item, searchQueryUid),
-    checkAddToCart(addToCart, item, 0),
+    checkClick(click, item, searchResponse),
+    checkAddToCart(addToCart, item, itemIndex),
     checkCheckoutPageView(checkoutPageView),
     checkPurchase(purchase, items),
     checkSearchPageView(searchPageView)
@@ -120,27 +122,30 @@ function findIncrementally<T>(arr: T[]) {
 
 type LoggedAnalyticsEvent = AnalyticsEvent | undefined
 
-function checkClick(event: LoggedAnalyticsEvent, cartItem: CartItem, searchQueryUid: string): EventReport {
+function checkClick(event: LoggedAnalyticsEvent, item: CartItem, searchResponse: SearchResponseSuccess): EventReport {
   return {
     event: 'click',
     payload: getPayload(event),
-    report: event ? getClickEventReport(cartItem, event, searchQueryUid) : [],
+    report: event ? getClickEventReport(item, event, searchResponse) : [],
     missing: !event
   }
 }
 
-function getClickEventReport(cartItem: CartItem, event: AnalyticsEvent, searchQueryUid: string) {
-  const { product } = cartItem;
+function getClickEventReport(item: CartItem, event: AnalyticsEvent, searchResponse: SearchResponseSuccess) {
+  const { product } = item;
+  const { searchUid, results } = searchResponse
+  const index = results.findIndex(r => r.uniqueId === product.uniqueId)
+
   return [
     assertPayload(event, 'actionCause', 'documentOpen'),
     assertPayload(event, 'anonymous', true),
-    assertPayload(event, 'documentPosition', 1),
+    assertPayload(event, 'documentPosition', index + 1),
     assertPayload(event, 'documentTitle', product.title),
     assertPayload(event, 'documentUriHash', product.raw.urihash),
     assertPayload(event, 'documentUrl', product.uri),
     assertPayload(event, 'language', 'en'),
     assertPayload(event, 'originLevel1', 'default'),
-    assertPayload(event, 'searchQueryUid', searchQueryUid),
+    assertPayload(event, 'searchQueryUid', searchUid),
     assertPayload(event, 'sourceName', product.raw.source),
     assertPayload(event, 'userAgent', navigator.userAgent),
     assertCustomData(event, 'contentIDKey', 'permanentId'),
