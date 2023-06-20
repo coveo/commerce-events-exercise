@@ -19,7 +19,10 @@ export function Checkout() {
 
   function pay() {
     setPaid(true);
+    logPurchase();
   }
+
+  function logPurchase() {}
 
   return (
     <div>
