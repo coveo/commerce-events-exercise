@@ -29,6 +29,38 @@ Refer to the [documentation here](https://docs.coveo.com/en/3188/coveo-for-comme
 
 To test your implementation, click the `Run scenario` button.
 
+**Note**: the values of some keys in event payloads should meet certain business requirements listed in the following table:
+
+<table>
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan=3>click</td>
+            <td>context_website</td>
+            <td>Commerce Store</td>
+        </tr>
+        <tr>
+            <td>originLevel1</td>
+            <td>default</td>
+        </tr>
+        <tr>
+            <td>language</td>
+            <td>en</td>
+        </tr>
+        <tr>
+            <td>purchase</td>
+            <td>transaction id</td>
+            <td>931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912</td>
+        </tr>
+    </tbody>
+</table>
+
 ## Scoring
 
 Each implemented event provides a maximum of 2 points.
