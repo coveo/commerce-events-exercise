@@ -245,8 +245,9 @@ function assertPayload(event: AnalyticsEvent, key: string, expected: any): Repor
 }
 
 function assertCustomData(event: AnalyticsEvent, key: string, expected: any): ReportItem {
-  const received = event.payload['customData'][key]
-  return buildReportItem(key, expected, received)
+  const prefix = 'customData'
+  const received = event.payload[prefix][key]
+  return buildReportItem(`${prefix}.${key}`, expected, received)
 }
 
 function buildReportItem(key: string, expected: string, received: string): ReportItem {
