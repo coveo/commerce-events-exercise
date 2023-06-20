@@ -62,13 +62,6 @@ interface SearchProps {
 
 const Search = (props: SearchProps) => {
   const { engine } = props;
-  const { coveoua } = useCoveoAnalytics();
-
-  useEffect(() => {
-    logPageView();
-  }, []);
-
-  function logPageView() {}
 
   if (engine) {
     return (
