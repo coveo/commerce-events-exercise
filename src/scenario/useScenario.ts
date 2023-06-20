@@ -232,11 +232,15 @@ function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number)
 
   return [
     assertPayload(event, id, cartItem.product.raw.ec_productid),
-    assertPayload(event, category, cartItem.product.raw.ec_category),
+    assertPayload(event, category, lastElement(cartItem.product.raw.ec_category as string[])),
     assertPayload(event, price, cartItem.product.raw.ec_price),
     assertPayload(event, name, cartItem.product.raw.ec_name),
     assertPayload(event, quantity, cartItem.quantity),
   ]
+}
+
+function lastElement<T>(arr: T[]) {
+  return arr.slice(-1)[0]
 }
 
 function assertPayload(event: AnalyticsEvent, key: string, expected: any): ReportItem {
