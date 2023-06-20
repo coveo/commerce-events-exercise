@@ -1,4 +1,4 @@
-# Exercise: Logging Commerce Events
+# Exercise: logging commerce events
 
 This repo contains a simple commerce site to practice implementing commerce events. The application provides a `Run scenario` button which when clicked will run a test scenario (described below) and give you feedback on the implemnted events.
 
