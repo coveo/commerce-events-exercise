@@ -90,15 +90,32 @@ function sleep(seconds: number = 0.5) {
 }
 
 function analyze(items: CartItem[], events: AnalyticsEvent[], searchQueryUid: string) {
-  const [click, addToCart, checkoutPageView, purchase, searchPageView] = events;
+  const find = findIncrementally(events)
+
+  const click = find((event) => event.payload.actionCause === 'documentOpen')
+  const addToCart = find((event) => event.payload.action === 'add')
+  const checkoutPageView = find((event) => event.payload.page === '/checkout')
+  const purchase = find((event) => event.payload.action === 'purchase')
+  const searchPageView = find((event) => event.payload.page === '/search')
+
+  const [item] = items;
 
   return [
-    checkClick(click, items[0], searchQueryUid),
-    checkAddToCart(addToCart, items[0], 0),
+    checkClick(click, item, searchQueryUid),
+    checkAddToCart(addToCart, item, 0),
     checkCheckoutPageView(checkoutPageView),
     checkPurchase(purchase, items),
     checkSearchPageView(searchPageView)
   ]
+}
+
+function findIncrementally<T>(arr: T[]) {
+  let maxIndex = 0
+  return (condition: (el: T) => boolean) => {
+    const index = arr.findIndex((el, i) => i >= maxIndex && condition(el))
+    maxIndex = Math.max(maxIndex, index)
+    return arr[index]
+  }
 }
 
 type LoggedAnalyticsEvent = AnalyticsEvent | undefined
