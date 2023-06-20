@@ -2,13 +2,20 @@ import { useState, useEffect } from "react";
 import { CartItem, useCart } from "../Components/useCart";
 import { Link } from "react-router-dom";
 import "./Checkout.css";
+import { useCoveoAnalytics } from "../scenario/useCoveoAnalytics";
 
 export function Checkout() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [paid, setPaid] = useState(false);
   const { subscribe } = useCart();
+  const { coveoua } = useCoveoAnalytics();
 
-  useEffect(() => subscribe((state) => setItems(state.items)), []);
+  useEffect(() => {
+    logPageView();
+    subscribe((state) => setItems(state.items));
+  }, []);
+
+  function logPageView() {}
 
   function pay() {
     setPaid(true);
