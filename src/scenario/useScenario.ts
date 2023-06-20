@@ -215,7 +215,7 @@ function checkPurchase(event: LoggedAnalyticsEvent, items: CartItem[]): EventRep
 function sumCart(items: CartItem[]) {
   return items
     .map(item => {
-      const rawPrice = item.product.raw.price
+      const rawPrice = item.product.raw.ec_price
       const price = typeof rawPrice === 'number' ? rawPrice : 0;
       return price * item.quantity
     })
