@@ -114,5 +114,5 @@ function box(color: string) {
 }
 
 function bold(value: string) {
-  return <b>{value}</b>;
+  return <b>{`${value}`}</b>;
 }

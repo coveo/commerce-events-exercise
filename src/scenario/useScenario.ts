@@ -147,7 +147,7 @@ function getClickEventReport(item: CartItem, event: AnalyticsEvent, searchRespon
     assertPayload(event, 'originLevel1', 'default'),
     assertPayload(event, 'searchQueryUid', searchUid),
     assertPayload(event, 'sourceName', product.raw.source),
-    assertCustomData(event, 'contentIDKey', 'permanentId'),
+    assertCustomData(event, 'contentIDKey', 'permanentid'),
     assertCustomData(event, 'contentIDValue', product.raw.permanentid),
     assertCustomData(event, 'context_website', 'Commerce Store')
   ]
@@ -254,5 +254,5 @@ function assertCustomData(event: AnalyticsEvent, key: string, expected: any): Re
 }
 
 function buildReportItem(key: string, expected: string, received: string): ReportItem {
-  return { valid: expected === received, key, expected, received: `${received}` }
+  return { valid: expected === received, key, expected, received }
 }

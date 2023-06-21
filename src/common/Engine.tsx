@@ -10,6 +10,9 @@ export function initializeHeadlessEngine() {
       platformUrl: process.env.REACT_APP_PLATFORM_URL,
       organizationId: process.env.REACT_APP_ORGANIZATION_ID!,
       accessToken: getSearchToken(),
+      analytics: {
+        anonymous: true,
+      },
     },
   });
 }
