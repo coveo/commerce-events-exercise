@@ -81,12 +81,12 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
     addProduct(result);
     openCart();
     logClick(result);
-    logAddToCart();
+    logAddToCart(result);
   }
 
   function logClick(result: Result) {}
 
-  function logAddToCart() {}
+  function logAddToCart(result: Result) {}
 
   const headlessResultTemplateManager: ResultTemplatesManager<Template> =
     buildResultTemplatesManager(engine);
