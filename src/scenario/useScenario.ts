@@ -147,7 +147,6 @@ function getClickEventReport(item: CartItem, event: AnalyticsEvent, searchRespon
     assertPayload(event, 'originLevel1', 'default'),
     assertPayload(event, 'searchQueryUid', searchUid),
     assertPayload(event, 'sourceName', product.raw.source),
-    assertPayload(event, 'userAgent', navigator.userAgent),
     assertCustomData(event, 'contentIDKey', 'permanentId'),
     assertCustomData(event, 'contentIDValue', product.raw.permanentid),
     assertCustomData(event, 'context_website', 'Commerce Store')
