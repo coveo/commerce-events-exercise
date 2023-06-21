@@ -10,13 +10,7 @@ declare global {
 }
 
 export function useCoveoAnalytics() {
-  const { add } = useEventStore();
-  const hook: AnalyticsClientSendEventHook = (type, payload) => {
-    const event = { type, payload }
-    add(event)
-    return payload
-  }
-
+  const { hook } = useAnalyticsHook()
   const client = window.coveoanalytics?.SimpleAnalytics.coveoua.client
 
   if (client && !client.hookAttached) {
@@ -26,4 +20,15 @@ export function useCoveoAnalytics() {
 
   const coveoua = window.coveoua || (() => console.log('noop coveoua'));
   return { coveoua }
+}
+
+function useAnalyticsHook() {
+  const { add } = useEventStore();
+  const hook: AnalyticsClientSendEventHook = (type, payload) => {
+    const event = { type, payload }
+    add(event)
+    return payload
+  }
+
+  return { hook }
 }
