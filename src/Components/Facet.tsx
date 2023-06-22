@@ -1,12 +1,16 @@
-import {FunctionComponent, useEffect, useState, useContext} from 'react';
-import {Facet as HeadlessFacet, buildFacet, FacetValue} from '@coveo/headless';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import './Facet.css';
-import {Divider, ListItem, ListItemText, Typography} from '@mui/material';
-import EngineContext from '../common/engineContext';
+import { FunctionComponent, useEffect, useState, useContext } from "react";
+import {
+  Facet as HeadlessFacet,
+  buildFacet,
+  FacetValue,
+} from "@coveo/headless";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import "./Facet.css";
+import { Divider, ListItem, ListItemText, Typography } from "@mui/material";
+import EngineContext from "../common/engineContext";
 
 interface FacetProps {
   title: string;
@@ -18,7 +22,7 @@ interface FacetRendererProps extends FacetProps {
 }
 
 const FacetRenderer: FunctionComponent<FacetRendererProps> = (props) => {
-  const {controller} = props;
+  const { controller } = props;
   const [state, setState] = useState(controller.state);
 
   useEffect(
@@ -52,7 +56,7 @@ const FacetRenderer: FunctionComponent<FacetRendererProps> = (props) => {
 
           return (
             <ListItem
-              style={{padding: 0}}
+              style={{ padding: 0 }}
               key={value.value}
               role={undefined}
               button
@@ -64,7 +68,7 @@ const FacetRenderer: FunctionComponent<FacetRendererProps> = (props) => {
                 checked={controller.isValueSelected(value)}
                 tabIndex={-1}
                 disableRipple
-                inputProps={{'aria-labelledby': labelId}}
+                inputProps={{ "aria-labelledby": labelId }}
               />
               <ListItemText
                 className="truncate inline"
@@ -95,6 +99,7 @@ const Facet: FunctionComponent<FacetProps> = (props) => {
     options: {
       numberOfValues: 5,
       field: props.field,
+      facetId: props.field,
     },
   });
   return <FacetRenderer {...props} controller={controller} />;
