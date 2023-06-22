@@ -41,11 +41,12 @@ To test your implementation, click the `Run scenario` button.
     </thead>
     <tbody>
         <tr>
-            <td rowspan=3>click</td>
-            <td>context_website</td>
+            <td>All</td>
+            <td>customData.context_website</td>
             <td>Commerce Store</td>
         </tr>
         <tr>
+            <td rowspan=2>click</td>
             <td>originLevel1</td>
             <td>default</td>
         </tr>

@@ -149,7 +149,7 @@ function getClickEventReport(item: CartItem, event: AnalyticsEvent, searchRespon
     assertPayload(event, 'sourceName', product.raw.source),
     assertCustomData(event, 'contentIDKey', 'permanentid'),
     assertCustomData(event, 'contentIDValue', product.raw.permanentid),
-    assertCustomData(event, 'context_website', 'Commerce Store')
+    assertWebsite(event),
   ]
 }
 
@@ -165,7 +165,8 @@ function checkAddToCart(event: LoggedAnalyticsEvent, cartItem: CartItem, index: 
 function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, index: number) {
   return [
     assertPayload(event, 'action', 'add'),
-    ...assertProduct(event, cartItem, index)
+    ...assertProduct(event, cartItem, index),
+    assertWebsite(event),
   ]
 }
 
@@ -175,7 +176,8 @@ function checkCheckoutPageView(event: LoggedAnalyticsEvent): EventReport {
     payload: getPayload(event),
     report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
-      assertPayload(event, 'page', '/checkout')
+      assertPayload(event, 'page', '/checkout'),
+      assertWebsite(event),
     ] : [],
     missing: !event
   }
@@ -191,7 +193,8 @@ function checkSearchPageView(event: LoggedAnalyticsEvent): EventReport {
     payload: getPayload(event),
     report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
-      assertPayload(event, 'page', '/search')
+      assertPayload(event, 'page', '/search'),
+      assertWebsite(event),
     ] : [],
     missing: !event
   }
@@ -206,6 +209,7 @@ function checkPurchase(event: LoggedAnalyticsEvent, items: CartItem[]): EventRep
       ...items.flatMap((item, i) => assertProduct(event, item, i)),
       assertPayload(event, 'id', '931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912'),
       assertPayload(event, 'revenue', sumCart(items)),
+      assertWebsite(event),
     ] : [],
     missing: !event
   }
@@ -247,8 +251,15 @@ function assertPayload(event: AnalyticsEvent, key: string, expected: any): Repor
   return buildReportItem(key, expected, received)
 }
 
+function assertWebsite(event: AnalyticsEvent): ReportItem {
+  return assertNestedKey(event, 'custom', 'context_website', 'Commerce Store')
+}
+
 function assertCustomData(event: AnalyticsEvent, key: string, expected: any): ReportItem {
-  const prefix = 'customData'
+  return assertNestedKey(event, 'customData', key, expected)
+}
+
+function assertNestedKey(event: AnalyticsEvent, prefix: string, key: string, expected: any): ReportItem {
   const received = event.payload[prefix][key]
   return buildReportItem(`${prefix}.${key}`, expected, received)
 }
