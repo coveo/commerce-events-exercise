@@ -95,9 +95,9 @@ function analyze(items: CartItem[], events: AnalyticsEvent[], searchResponse: Se
 
   const click = find((event) => event.payload.actionCause === 'documentOpen')
   const addToCart = find((event) => event.payload.action === 'add')
-  const checkoutPageView = find((event) => event.payload.page === '/checkout')
+  const checkoutPageView = find((event) => matchLocation(event, '/checkout'))
   const purchase = find((event) => event.payload.action === 'purchase')
-  const searchPageView = find((event) => event.payload.page === '/search')
+  const searchPageView = find((event) => matchLocation(event, '/search'))
 
   const [item] = items;
   const itemIndex = 0;
@@ -109,6 +109,11 @@ function analyze(items: CartItem[], events: AnalyticsEvent[], searchResponse: Se
     checkPurchase(purchase, items),
     checkSearchPageView(searchPageView)
   ]
+}
+
+function matchLocation(event: AnalyticsEvent, pathname: string) {
+  const location = event.payload.location || '';
+  return location.endsWith(pathname);
 }
 
 function findIncrementally<T>(arr: T[]) {
