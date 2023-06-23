@@ -41,7 +41,7 @@ To test your implementation, click the `Run scenario` button.
     </thead>
     <tbody>
         <tr>
-            <td>All</td>
+            <td>all</td>
             <td>customData.context_website</td>
             <td>Commerce Store</td>
         </tr>
@@ -56,7 +56,7 @@ To test your implementation, click the `Run scenario` button.
         </tr>
         <tr>
             <td>purchase</td>
-            <td>transaction id</td>
+            <td>id (transaction id)</td>
             <td>931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912</td>
         </tr>
     </tbody>
