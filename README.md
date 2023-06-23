@@ -37,6 +37,7 @@ To test your implementation, click the `Run scenario` button.
             <th>Event</th>
             <th>Key</th>
             <th>Value</th>
+            <th>Notes</th>
         </tr>
     </thead>
     <tbody>
@@ -46,18 +47,16 @@ To test your implementation, click the `Run scenario` button.
             <td>Commerce Store</td>
         </tr>
         <tr>
-            <td rowspan=2>click</td>
+            <td>click</td>
             <td>originLevel1</td>
-            <td>default</td>
-        </tr>
-        <tr>
-            <td>language</td>
-            <td>en</td>
+            <td>CommerceStoreSearch</td>
+            <td>Handled for you when logging clicks using Headless</td>
         </tr>
         <tr>
             <td>purchase</td>
-            <td>id (transaction id)</td>
+            <td>id</td>
             <td>931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912</td>
+            <td>For the exercise, hard-code this value as the transaction id</td>
         </tr>
     </tbody>
 </table>
