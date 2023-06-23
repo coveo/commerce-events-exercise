@@ -133,7 +133,7 @@ function checkClick(event: LoggedAnalyticsEvent, item: CartItem, searchResponse:
 
 function getClickEventReport(item: CartItem, event: AnalyticsEvent, searchResponse: SearchResponseSuccess) {
   const { product } = item;
-  const { searchUid, results } = searchResponse
+  const { results } = searchResponse
   const index = results.findIndex(r => r.uniqueId === product.uniqueId)
 
   return [
@@ -145,7 +145,6 @@ function getClickEventReport(item: CartItem, event: AnalyticsEvent, searchRespon
     assertPayload(event, 'documentUrl', product.uri),
     assertPayload(event, 'language', 'en'),
     assertPayload(event, 'originLevel1', 'default'),
-    assertPayload(event, 'searchQueryUid', searchUid),
     assertPayload(event, 'sourceName', product.raw.source),
     assertCustomData(event, 'contentIDKey', 'permanentid'),
     assertCustomData(event, 'contentIDValue', product.raw.permanentid),
@@ -252,7 +251,8 @@ function assertPayload(event: AnalyticsEvent, key: string, expected: any): Repor
 }
 
 function assertWebsite(event: AnalyticsEvent): ReportItem {
-  return assertNestedKey(event, 'custom', 'context_website', 'Commerce Store')
+  const key = 'custom' in event.payload ? 'custom' : 'customData';
+  return assertNestedKey(event, key, 'context_website', 'Commerce Store')
 }
 
 function assertCustomData(event: AnalyticsEvent, key: string, expected: any): ReportItem {
@@ -260,7 +260,8 @@ function assertCustomData(event: AnalyticsEvent, key: string, expected: any): Re
 }
 
 function assertNestedKey(event: AnalyticsEvent, prefix: string, key: string, expected: any): ReportItem {
-  const received = event.payload[prefix][key]
+  const obj = event.payload[prefix] || {}
+  const received = obj[key]
   return buildReportItem(`${prefix}.${key}`, expected, received)
 }
 

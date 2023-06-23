@@ -11,14 +11,18 @@ import { initializeHeadlessEngine } from "./common/Engine";
 import { SearchEngine } from "@coveo/headless";
 import { Checkout } from "./pages/Checkout";
 import { ScenarioButton } from "./Components/ScenarioButton";
-import { useCoveoAnalytics } from "./scenario/useCoveoAnalytics";
+import {
+  useAnalyticsHook,
+  useCoveoAnalytics,
+} from "./scenario/useCoveoAnalytics";
 
 export default function App() {
   const [engine, setEngine] = React.useState<SearchEngine | null>(null);
   const { coveoua } = useCoveoAnalytics();
+  const { hook } = useAnalyticsHook();
 
   useEffect(() => {
-    setEngine(initializeHeadlessEngine());
+    setEngine(initializeHeadlessEngine(hook));
     coveoua("init", "<insert api key here>");
   }, []);
 

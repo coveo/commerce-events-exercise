@@ -1,10 +1,13 @@
-import { buildSearchEngine } from "@coveo/headless";
+import {
+  AnalyticsClientSendEventHook,
+  buildSearchEngine,
+} from "@coveo/headless";
 
 function getSearchToken() {
   return process.env.REACT_APP_API_KEY || "";
 }
 
-export function initializeHeadlessEngine() {
+export function initializeHeadlessEngine(hook: AnalyticsClientSendEventHook) {
   return buildSearchEngine({
     configuration: {
       platformUrl: process.env.REACT_APP_PLATFORM_URL,
@@ -12,6 +15,7 @@ export function initializeHeadlessEngine() {
       accessToken: getSearchToken(),
       analytics: {
         anonymous: true,
+        analyticsClientMiddleware: hook,
       },
     },
   });

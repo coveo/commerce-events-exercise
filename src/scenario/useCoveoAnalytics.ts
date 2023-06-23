@@ -22,7 +22,7 @@ export function useCoveoAnalytics() {
   return { coveoua }
 }
 
-function useAnalyticsHook() {
+export function useAnalyticsHook() {
   const { add } = useEventStore();
   const hook: AnalyticsClientSendEventHook = (type, payload) => {
     const event = { type, payload }
