@@ -74,7 +74,7 @@ Pick one of the following setup options:
 
 ### In browser
 
-- Code in the [online sandbox](https://codesandbox.io/p/github/samisayegh/commerce-store/main?file=/README.md).
+- Code in the [online sandbox](https://codesandbox.io/p/github/coveo/commerce-events-exercise/main?file=/README.md).
 
 ### Local machine
 
