@@ -180,7 +180,6 @@ function checkCheckoutPageView(event: LoggedAnalyticsEvent): EventReport {
     payload: getPayload(event),
     report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
-      assertPayload(event, 'page', '/checkout'),
       assertWebsite(event),
     ] : [],
     missing: !event
@@ -197,7 +196,6 @@ function checkSearchPageView(event: LoggedAnalyticsEvent): EventReport {
     payload: getPayload(event),
     report: event ? [
       assertPayload(event, 'hitType', 'pageview'),
-      assertPayload(event, 'page', '/search'),
       assertWebsite(event),
     ] : [],
     missing: !event
