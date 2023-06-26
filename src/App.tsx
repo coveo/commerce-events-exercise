@@ -23,7 +23,7 @@ export default function App() {
 
   useEffect(() => {
     setEngine(initializeHeadlessEngine(hook));
-    coveoua("init", process.env.REACT_APP_API_KEY);
+    coveoua("init", process.env.REACT_APP_ANALYTICS_API_KEY);
   }, []);
 
   return (
@@ -52,6 +52,7 @@ const isEnvValid = () => {
     "REACT_APP_PLATFORM_URL",
     "REACT_APP_ORGANIZATION_ID",
     "REACT_APP_API_KEY",
+    "REACT_APP_ANALYTICS_API_KEY",
     "REACT_APP_USER_EMAIL",
     "REACT_APP_SERVER_PORT",
   ];
