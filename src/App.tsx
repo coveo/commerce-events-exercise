@@ -23,7 +23,7 @@ export default function App() {
 
   useEffect(() => {
     setEngine(initializeHeadlessEngine(hook));
-    coveoua("init", "<insert api key here>");
+    coveoua("init", process.env.REACT_APP_API_KEY);
   }, []);
 
   return (
