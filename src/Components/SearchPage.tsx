@@ -44,10 +44,10 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
         <Box my={4}>
           <Grid container>
-            <Grid item md={3} sm={12}>
+            <Grid item md={3}>
               <FacetList />
             </Grid>
-            <Grid item md={9} sm={12}>
+            <Grid item md={9}>
               <Box pl={3}>
                 <Grid container alignItems="flex-end">
                   <Grid item md={10}>
