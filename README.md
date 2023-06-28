@@ -1,6 +1,6 @@
 # Exercise: logging commerce events
 
-This repo contains a simple commerce site to practice implementing commerce events. The application provides a `Run scenario` button which when clicked will run a test scenario (described below) and give you feedback on the implemnted events.
+This repo contains a [simple commerce site](https://codesandbox.io/p/github/coveo/commerce-events-exercise/main?file=/README.md) to practice implementing commerce events. The application provides a `Run scenario` button which when clicked will run a test scenario (described below) and give you feedback on the implemented events.
 
 ## The scenario
 
@@ -18,6 +18,7 @@ When the scenario is complete, a modal will show the intercepted events and feed
 The exercise is to implement the following events:
 
 1. A click event emitted when the `Add to cart` button is clicked.
+   - We recommend using the headless [InteractiveResult](https://docs.coveo.com/en/headless/latest/reference/search/controllers/interactive-result/) controller.
 2. An add-to-cart event emitted when the `Add to cart` button is clicked.
 3. A page view event emitted when the checkout page is rendered.
 4. A purchase event emitted when the `Pay` button on the checkout page is clicked.
@@ -25,7 +26,7 @@ The exercise is to implement the following events:
 
 Placeholder functions that need to be implemented are included in the code. Search for `logClick`, `logAddToCart`, `logPageView` and `logPurchase`.
 
-Refer to the [documentation here](https://docs.coveo.com/en/3188/coveo-for-commerce/log-commerce-events) for information on how to emit the events and their expected payloads.
+Refer to the [documentation](https://docs.coveo.com/en/3188/coveo-for-commerce/log-commerce-events) for information on how to emit the events and their expected payloads. Please focus only on implementing **required** keys.
 
 To test your implementation, click the `Run scenario` button.
 
@@ -70,14 +71,17 @@ Each implemented event provides a maximum of 2 points.
 
 ## Setup
 
-Pick one of the following setup options:
+### Prequisites
 
-### In browser
+- [git](https://git-scm.com/downloads)
+- [node 18+](https://nodejs.org/en/download/current)
+- A browser (e.g., [Google Chrome](https://www.google.com/intl/en_ca/chrome/))
+- A code editor (e.g., [VS Code](https://code.visualstudio.com/download))
 
-- Code in the [online sandbox](https://codesandbox.io/p/github/coveo/commerce-events-exercise/main?file=/README.md).
+### Steps
 
-### Local machine
-
-- Clone the repo
+- Clone the repo: `git clone https://github.com/coveo/commerce-events-exercise.git`
 - Install dependencies: `npm i`
 - Start the server: `npm start`
+
+The commerce site should load in a new browser tab. If so, you're ready!
