@@ -84,4 +84,4 @@ Each implemented event provides a maximum of 2 points.
 - Install dependencies: `npm i`
 - Start the server: `npm start`
 
-The commerce site should load in a new browser tab. If so, you're ready!
+The commerce site should load in a new browser tab. If it does, you're ready to go!
