@@ -8,7 +8,7 @@ The test scenrio simulates a simple checkout flow. It will:
 
 1. Add three random products to the cart.
 2. Navigate to the checkout page.
-3. Pay
+3. Pay.
 4. Navigate to the search page.
 
 When the scenario is complete, a modal will show the intercepted events and feedback on the payloads.
