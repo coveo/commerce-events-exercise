@@ -20,6 +20,8 @@ export function useScenario(props: NullableSearchEngine) {
     const searchResponse = props.engine!.state.search.response;
 
     addItemToCart()
+    addItemToCart()
+    addItemToCart()
     await sleep()
     isCartClosed() && toggleCart()
     await sleep()
@@ -169,7 +171,7 @@ function checkAddToCart(event: LoggedAnalyticsEvent, cartItem: CartItem, index: 
 function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, index: number) {
   return [
     assertPayload(event, 'action', 'add'),
-    ...assertProduct(event, cartItem, index),
+    ...assertProduct(event, cartItem, index, 1),
     assertWebsite(event),
   ]
 }
@@ -208,7 +210,7 @@ function checkPurchase(event: LoggedAnalyticsEvent, items: CartItem[]): EventRep
     payload: getPayload(event),
     report: event ? [
       assertPayload(event, 'action', 'purchase'),
-      ...items.flatMap((item, i) => assertProduct(event, item, i)),
+      ...items.flatMap((item, i) => assertProduct(event, item, i, item.quantity)),
       assertPayload(event, 'id', '931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912'),
       assertPayload(event, 'revenue', sumCart(items)),
       assertWebsite(event),
@@ -227,7 +229,7 @@ function sumCart(items: CartItem[]) {
     .reduce((acc, curr) => acc + curr, 0)
 }
 
-function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number): ReportItem[] {
+function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number, expectedQuantity: number): ReportItem[] {
   const prefix = `pr${index + 1}`
   const id = `${prefix}id`
   const category = `${prefix}ca`
@@ -240,7 +242,7 @@ function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number)
     assertPayload(event, category, lastElement(cartItem.product.raw.ec_category as string[])),
     assertPayload(event, price, cartItem.product.raw.ec_price),
     assertPayload(event, name, cartItem.product.raw.ec_name),
-    assertPayload(event, quantity, cartItem.quantity),
+    assertPayload(event, quantity, expectedQuantity),
   ]
 }
 
