@@ -96,13 +96,17 @@ const ResultListRenderer: FunctionComponent<ResultListProps> = (props) => {
     content: (result: Result) => (
       <ListItem disableGutters key={result.uniqueId}>
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={4} my={2}>
             <img style={{ width: 160 }} src={result.raw.ec_images as string} />
           </Grid>
           <Grid item xs={8}>
             <Box my={2}>
               <Box pb={1}>{ListItemLink(engine, result)}</Box>
-
+              <Box pb={1}>
+                <Typography color="textPrimary" variant="body1">
+                  ${(result.raw as any).ec_price}
+                </Typography>
+              </Box>
               {result.excerpt && (
                 <Box pb={1}>
                   <Typography color="textPrimary" variant="body2">
