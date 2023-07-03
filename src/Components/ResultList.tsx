@@ -16,14 +16,6 @@ import { useCoveoAnalytics } from "../scenario/useCoveoAnalytics";
 
 type Template = (result: Result) => React.ReactNode;
 
-export function filterProtocol(uri: string) {
-  // Filters out dangerous URIs that can create XSS attacks such as `javascript:`.
-  const isAbsolute = /^(https?|ftp|file|mailto|tel):/i.test(uri);
-  const isRelative = /^(\/|\.\/|\.\.\/)/.test(uri);
-
-  return isAbsolute || isRelative ? uri : "";
-}
-
 interface FieldValueInterface {
   value: string;
   caption: string;
@@ -38,7 +30,6 @@ function ListItemLink(engine: SearchEngine, result: Result) {
   });
   return (
     <a
-      href={filterProtocol(result.clickUri)}
       onClick={() => interactiveResult.select()}
       onContextMenu={() => interactiveResult.select()}
       onMouseDown={() => interactiveResult.select()}
