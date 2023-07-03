@@ -6,7 +6,7 @@ This repo contains a [simple commerce site](https://codesandbox.io/p/github/cove
 
 The test scenrio simulates a simple checkout flow. It will:
 
-1. Add three products at random to the cart.
+1. Add three random products to the cart.
 2. Navigate to the checkout page.
 3. Pay
 4. Navigate to the search page.
