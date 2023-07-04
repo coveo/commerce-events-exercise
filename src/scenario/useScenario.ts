@@ -213,6 +213,7 @@ function checkPurchase(event: LoggedAnalyticsEvent, items: CartItem[]): EventRep
       ...items.flatMap((item, i) => assertProduct(event, item, i, item.quantity)),
       assertPayload(event, 'id', '931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912'),
       assertPayload(event, 'revenue', sumCart(items)),
+      assertPayload(event, 'currencyCode', 'CAD'),
       assertWebsite(event),
     ] : [],
     missing: !event

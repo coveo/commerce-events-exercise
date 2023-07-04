@@ -54,10 +54,15 @@ To test your implementation, click the `Run scenario` button.
             <td>Handled for you when logging clicks using Headless</td>
         </tr>
         <tr>
-            <td>purchase</td>
+            <td rowspan="2">purchase</td>
             <td>id</td>
             <td>931cbf0c-07b0-4be1-91bb-448b3d82addc-1677170972912</td>
             <td>For the exercise, hard-code this value as the transaction id</td>
+        </tr>
+        <tr>
+            <td>currencyCode</td>
+            <td>CAD</td>
+            <td>The exercise uses a catalog where prices are in Canadian dollars</td>
         </tr>
     </tbody>
 </table>
