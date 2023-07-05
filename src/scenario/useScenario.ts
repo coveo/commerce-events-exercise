@@ -172,6 +172,7 @@ function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, inde
   return [
     assertPayload(event, 'action', 'add'),
     ...assertProduct(event, cartItem, index, 1),
+    assertPayload(event, 'currencyCode', 'CAD'),
     assertWebsite(event),
   ]
 }
