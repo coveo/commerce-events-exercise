@@ -248,8 +248,9 @@ function assertProduct(event: AnalyticsEvent, cartItem: CartItem, index: number,
   ]
 }
 
-function lastElement<T>(arr: T[]) {
-  return arr.slice(-1)[0]
+function lastElement(arr: string[]) {
+  const [lastElement] = arr.slice(-1)
+  return lastElement.replaceAll('|', '/')
 }
 
 function assertPayload(event: AnalyticsEvent, key: string, expected: any): ReportItem {
