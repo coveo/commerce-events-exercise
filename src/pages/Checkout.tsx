@@ -11,7 +11,7 @@ export function Checkout() {
   const { coveoua } = useCoveoAnalytics();
 
   useEffect(() => {
-    logPageView();
+    setTimeout(logPageView);
     subscribe((state) => setItems(state.items));
   }, []);
 
