@@ -97,9 +97,7 @@ function analyze(items: CartItem[], events: AnalyticsEvent[], searchResponse: Se
 
   const click = find((event) => event.payload.actionCause === 'documentOpen')
   const addToCart = find((event) => event.payload.action === 'add')
-  const checkoutPageView = find((event) => matchLocation(event, '/checkout'))
   const purchase = find((event) => event.payload.action === 'purchase')
-  const searchPageView = find((event) => matchLocation(event, '/search'))
 
   const [item] = items;
   const itemIndex = 0;
@@ -107,15 +105,8 @@ function analyze(items: CartItem[], events: AnalyticsEvent[], searchResponse: Se
   return [
     checkClick(click, item, searchResponse),
     checkAddToCart(addToCart, item, itemIndex),
-    checkCheckoutPageView(checkoutPageView),
     checkPurchase(purchase, items),
-    checkSearchPageView(searchPageView)
   ]
-}
-
-function matchLocation(event: AnalyticsEvent, pathname: string) {
-  const location = event.payload.location || '';
-  return location.endsWith(pathname);
 }
 
 function findIncrementally<T>(arr: T[]) {
@@ -177,32 +168,8 @@ function getAddToCartEventReport(cartItem: CartItem, event: AnalyticsEvent, inde
   ]
 }
 
-function checkCheckoutPageView(event: LoggedAnalyticsEvent): EventReport {
-  return {
-    event: 'checkout pageview',
-    payload: getPayload(event),
-    report: event ? [
-      assertPayload(event, 'hitType', 'pageview'),
-      assertWebsite(event),
-    ] : [],
-    missing: !event
-  }
-}
-
 function getPayload(event: LoggedAnalyticsEvent) {
   return event ? event.payload : {}
-}
-
-function checkSearchPageView(event: LoggedAnalyticsEvent): EventReport {
-  return {
-    event: 'search pageview',
-    payload: getPayload(event),
-    report: event ? [
-      assertPayload(event, 'hitType', 'pageview'),
-      assertWebsite(event),
-    ] : [],
-    missing: !event
-  }
 }
 
 function checkPurchase(event: LoggedAnalyticsEvent, items: CartItem[]): EventReport {
