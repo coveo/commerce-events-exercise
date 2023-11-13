@@ -11,11 +11,8 @@ export function Checkout() {
   const { coveoua } = useCoveoAnalytics();
 
   useEffect(() => {
-    setTimeout(logPageView);
     subscribe((state) => setItems(state.items));
   }, []);
-
-  function logPageView() {}
 
   function pay() {
     setPaid(true);

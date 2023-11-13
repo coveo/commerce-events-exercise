@@ -1,7 +1,7 @@
 import { buildStore } from "../common/store";
 
 export interface EventReport {
-  event: 'addToCart' | 'checkout pageview' | 'click' | 'purchase' | 'search pageview'
+  event: 'addToCart' | 'click' | 'purchase'
   payload: Object
   report: ReportItem[]
   missing: boolean

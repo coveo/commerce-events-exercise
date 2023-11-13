@@ -24,7 +24,7 @@ The exercise is to implement the following events:
 4. A purchase event emitted when the `Pay` button on the checkout page is clicked.
 5. A page view emitted when the search page is rendered.
 
-Placeholder functions that need to be implemented are included in the code. Search for `logClick`, `logAddToCart`, `logPageView` and `logPurchase`.
+Placeholder functions that need to be implemented are included in the code. Search for `logClick`, `logAddToCart` and `logPurchase`.
 
 Refer to the [documentation](https://docs.coveo.com/en/3188/coveo-for-commerce/log-commerce-events) for information on how to emit the events and their expected payloads. Please focus only on implementing **required** keys.
 

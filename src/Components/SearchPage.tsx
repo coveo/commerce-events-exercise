@@ -12,7 +12,6 @@ import ResultsPerPage from "./ResultsPerPage";
 import { SearchEngine } from "@coveo/headless";
 import { EngineProvider } from "../common/engineContext";
 import { Cart } from "./Cart";
-import { useCoveoAnalytics } from "../scenario/useCoveoAnalytics";
 
 interface ISearchPageProps {
   engine: SearchEngine;
@@ -20,13 +19,6 @@ interface ISearchPageProps {
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   const { engine } = props;
-  const { coveoua } = useCoveoAnalytics();
-
-  useEffect(() => {
-    logPageView();
-  }, []);
-
-  function logPageView() {}
 
   useEffect(() => {
     engine.executeFirstSearch();
