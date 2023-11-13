@@ -20,9 +20,7 @@ The exercise is to implement the following events:
 1. A click event emitted when the `Add to cart` button is clicked.
    - We recommend using the headless [InteractiveResult](https://docs.coveo.com/en/headless/latest/reference/search/controllers/interactive-result/) controller.
 2. An add-to-cart event emitted when the `Add to cart` button is clicked.
-3. A page view event emitted when the checkout page is rendered.
-4. A purchase event emitted when the `Pay` button on the checkout page is clicked.
-5. A page view emitted when the search page is rendered.
+3. A purchase event emitted when the `Pay` button on the checkout page is clicked.
 
 Placeholder functions that need to be implemented are included in the code. Search for `logClick`, `logAddToCart` and `logPurchase`.
 
